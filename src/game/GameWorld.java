@@ -27,7 +27,7 @@ public class GameWorld {
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 
-		gameWon=false;
+		gameWon=false;dsqdsq
 		gameLost=false;
 		
 		// on cree les collections
