@@ -4,13 +4,18 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.security.auth.login.Configuration;
+
 import entities.BasicZombie;
 import entities.Sunflower;
+import entities.Sun;
 import ihm.Reserve;
 import ihm.Text;
 
 public class GameWorld {
 
+	// Configuration des constantes de partie
+	Settings difficulty;
 
 	// l'ensemble des entites, pour gerer (notamment) l'affichage
 	private static List<Entite> entites;
@@ -18,17 +23,30 @@ public class GameWorld {
 	// l'ensemble des textes affichés à l'écran
 	private static List<Text> texts;
 
-	
 	//Pour savoir si la partie est gagnee ou pas
 	private static boolean gameWon;
+
 	// Idem pour savoir si le jeu est perdu (si le jeu n'est ni gagne ni perdu, il est en cours)
 	private static boolean gameLost;
+
+	// Chronomètre du jeu (en ticks)
+	private int tickCount;
+
+	// Réserve de soleils du joueur
+	private Reserve reserve;
 
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 
+		difficulty = new EasySettings();
+
 		gameWon=false;
 		gameLost=false;
+
+		tickCount = 0;
+
+		reserve = new Reserve(this.difficulty.getDefaultSuns());
+		texts.add(reserve);
 		
 		// on cree les collections
 		entites = new LinkedList<Entite>();
@@ -48,8 +66,7 @@ public class GameWorld {
 		entites.add(new Sunflower(4, 3));
 		entites.add(new Sunflower(5, 3));
 
-		texts.add(new Reserve(50));
-		
+
 	}
 
 	/**
@@ -91,8 +108,13 @@ public class GameWorld {
 
 	// on fait bouger/agir toutes les entites
 	public void step() {
+		tickCount++;
 		for (Entite entite : this.entites)
 			entite.step();
+		// apparition des soleils
+		if (tickCount % this.difficulty.getSunApparitionFrequency() == 0) {
+			entites.add(new Sun());
+		}
 	}
 
 	// dessine les entites du jeu

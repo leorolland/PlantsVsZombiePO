@@ -8,7 +8,7 @@ public class Reserve extends Text {
 	private int amount;
 	
 	public Reserve(int amount) {
-		super("Réserve : " + String.valueOf(amount), 0.8, 0.1 );
+		super("Reserve : " + String.valueOf(amount), 0.2, 0.9);
 		this.amount =amount;
 	}
 	public int getAmount() {
