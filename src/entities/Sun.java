@@ -18,7 +18,7 @@ public class Sun extends Bonus {
     private boolean clicked;
     
     public Sun() {
-        super(Math.random(), Math.random(), Sun.DEFAULT_BONUS, Sun.DEFAULT_SPRITES, Sun.DEFAULT_HITRANGE);
+        super(Math.random(), 0.1 + Math.random()* 0.7, Sun.DEFAULT_BONUS, Sun.DEFAULT_SPRITES, Sun.DEFAULT_HITRANGE);
         clicked = false;
     }
     public Sun(int x, int y) {

@@ -9,7 +9,12 @@ public class BasicZombie extends Zombie {
 	public static final double DEFAULT_SPEED = 0.25;
 	public static final int DEFAULT_ATQ = 30;
 	private static final String[] DEFAULT_SPRITES = {
-		"../assets/images/basic_zombie.png"
+		"../assets/images/basic_zombie_walk/frame_0_delay-0.5s.png",
+		"../assets/images/basic_zombie_walk/frame_1_delay-0.5s.png",
+		"../assets/images/basic_zombie_walk/frame_2_delay-0.5s.png",
+		"../assets/images/basic_zombie_walk/frame_3_delay-0.5s.png",
+		"../assets/images/basic_zombie_walk/frame_4_delay-0.5s.png",
+		"../assets/images/basic_zombie_walk/frame_5_delay-0.5s.png"
 	};
 
 	/**

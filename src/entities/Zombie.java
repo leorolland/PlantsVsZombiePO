@@ -36,7 +36,12 @@ public abstract class Zombie extends Entite {
 	/**
 	 * Sprite animation frame counter
 	 */
-	private int spriteAnimationFrame = 0;
+	private int spriteAnimationFrame;
+	
+	/**
+	 * Nombre d'images générées depuis l'apparition du zombie
+	 */
+	private int frameElapsed;
 
 	public int getHp() {
 		return hp;
@@ -70,11 +75,13 @@ public abstract class Zombie extends Entite {
 	 * @param atq les points d'attaque du zombie
 	 */
 	public Zombie(int ligne, int hp, double speed, int atq, String[] sprites) {
-		super(1, 0.06 + 0.15 * ligne);
+		super(1, 0.06 + 0.122 * ligne);
 		this.hp = hp;
 		this.speed = speed;
 		this.atq = atq;
 		this.sprites = Arrays.asList(sprites);
+		this.spriteAnimationFrame = 0;
+		this.frameElapsed = 0;
 	}
 	
 	@Override
@@ -84,13 +91,18 @@ public abstract class Zombie extends Entite {
 	
 	@Override
 	public void dessine() {
+		// Incrément du compteur de temps d'apparition
+		this.frameElapsed++;
 		// Dessin du sprite correct
-		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.05, 0.1);
+		StdDraw.picture(this.getX()+0.028, this.getY()-0.065, "../assets/images/shadow.png", 0.1, 0.06);
+		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.08, 0.1);
 		// IncrÃ©ment de l'animation de sprite
-		if (this.spriteAnimationFrame + 1 < this.sprites.size())
-			this.spriteAnimationFrame++;
-		else
-			this.spriteAnimationFrame=0;
+		if (this.frameElapsed % 12 == 0) {
+			if (this.spriteAnimationFrame + 1 < this.sprites.size())
+				this.spriteAnimationFrame++;
+			else
+				this.spriteAnimationFrame=0;
+		}
 	}
 
 	@Override

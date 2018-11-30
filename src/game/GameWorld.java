@@ -149,14 +149,20 @@ public class GameWorld {
 
 	// dessine les entites du jeu
 	public void dessine() {
-
-		// affiche les textes
-		for (Text text : texts)
-			text.dessine();
+		
+		StdDraw.clear();
+		
+		// Affiche le background
+		StdDraw.picture(0.5, 0.5, "../assets/images/background.png");
 				
 		// affiche les entites
 		for (Entite entite : entites)
 			entite.dessine();
+		
+		// affiche les textes
+		for (Text text : texts)
+			text.dessine();
+				
 	}
 
 	public static boolean gameWon() {
