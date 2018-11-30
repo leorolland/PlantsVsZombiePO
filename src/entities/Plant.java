@@ -23,6 +23,11 @@ public abstract class Plant extends Entite {
 	 * Sprites (Liste des images de l'animation)
 	 */
 	private List<String> sprites;
+	
+	/**
+	 * Temps avant de pouvoir racheter la plant apres l'avoir acheter
+	 */
+	private int timeBeforeRebuying;
 
 	/**
 	 * Sprite animation frame counter
@@ -45,11 +50,18 @@ public abstract class Plant extends Entite {
 		this.cost = cost;
 	}
 
-	public Plant(int ligne, int colonne, int hp, int cost, String[] sprites) {
+	public Plant(int ligne, int colonne, int hp, int cost, int timeBeforeRebuying, String[] sprites) {
 		super(0.06 + 0.10 * colonne, 0.06 + 0.15 * ligne);
 		this.hp = hp;
 		this.cost = cost;
 		this.sprites = Arrays.asList(sprites);
+		this.timeBeforeRebuying=timeBeforeRebuying;
+	}
+	public int gettimeBeforeRebuying(){
+		return timeBeforeRebuying;
+	}
+	public void settimeBeforeRebuying(int timeBeforeRebuying) {
+		this.timeBeforeRebuying=timeBeforeRebuying;
 	}
 
 	@Override
@@ -60,7 +72,7 @@ public abstract class Plant extends Entite {
 	@Override
 	public void dessine() {
 		// Dessin du sprite correct
-		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.05, 0.1);
+		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.1, 0.12);
 		// Incrément de l'animation de sprite
 		if (this.spriteAnimationFrame + 1 < this.sprites.size())
 			this.spriteAnimationFrame++;

@@ -9,7 +9,7 @@ public abstract class Settings {
     /**
      * Sun apparition frequency in ticks^(-1)
      */
-    public abstract int getSunApparitionFrequency();
+    public abstract int getSunApparitionFrequency(int amountSunflower);
 
     /**
      * Default sun points amount

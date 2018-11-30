@@ -6,11 +6,10 @@ public class Sunflower extends Plant {
 	public static final int DEFAULT_HP = 300;
 	public static final int DEFAULT_COST = 50;
 	private static final String[] DEFAULT_SPRITES = {
-		"../assets/images/basic_zombie.png"
+		"../assets/images/basic_plant.png"
 	};
-	
+	public static final int DEFAULT_TIME_BEFORE_REBUYING=5;
 	public Sunflower(int ligne, int colonne) {
-		super(ligne, colonne, Sunflower.DEFAULT_HP, Sunflower.DEFAULT_COST, Sunflower.DEFAULT_SPRITES);
+		super(ligne, colonne, Sunflower.DEFAULT_HP, Sunflower.DEFAULT_COST,Sunflower.DEFAULT_TIME_BEFORE_REBUYING, Sunflower.DEFAULT_SPRITES);
 	}
-
 }

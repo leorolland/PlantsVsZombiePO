@@ -1,11 +1,13 @@
 package entities;
 
+import ihm.Reserve;
+
 public class Sun extends Bonus {
 
     // Default BasicZombie properties
     public static final int DEFAULT_BONUS = 30;
     public static final String[] DEFAULT_SPRITES = {
-		"../assets/images/basic_zombie.png"
+		"../assets/images/sun.png"
     };
     private static final double DEFAULT_HITRANGE = 0.05;
     
@@ -35,6 +37,8 @@ public class Sun extends Bonus {
 	public void click() {
     		clicked = true;
     		System.out.println("Soleil cliqué");
+    		
+    		
 	}
 
 }

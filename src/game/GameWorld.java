@@ -32,7 +32,10 @@ public class GameWorld {
 
 	// Réserve de soleils du joueur
 	private Reserve reserve;
-
+	
+	// Nombre de sunflowers present sur le board
+	private int countOfSunflowers;
+	
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 
@@ -46,7 +49,7 @@ public class GameWorld {
 		gameLost=false;
 
 		tickCount = 0;
-
+		
 		reserve = new Reserve(this.difficulty.getDefaultSuns());
 		texts.add(reserve);
 		
@@ -60,10 +63,15 @@ public class GameWorld {
 		entites.add(new BasicZombie(5));
 		
 		entites.add(new Sunflower(1, 1));
+		countOfSunflowers++;
 		entites.add(new Sunflower(2, 1));
+		countOfSunflowers++;
 		entites.add(new Sunflower(3, 2));
+		countOfSunflowers++;
 		entites.add(new Sunflower(4, 3));
+		countOfSunflowers++;
 		entites.add(new Sunflower(5, 3));
+		countOfSunflowers++;
 
 
 	}
@@ -118,15 +126,18 @@ public class GameWorld {
 		for (Entite entite : entites) {
 			entite.step();
 			if (entite instanceof Sun) {
-				if (((Sun)entite).isClicked())
+				if (((Sun)entite).isClicked()) {
 					// Suppression de l'entite
 					entitiesToRemove.add(entite);
+					//Ajout de 25 soleil a la reserve
+					reserve.setAmount(reserve.getAmount()+25);
 				}
+			}
 		}
 		// Suppression des entités mémorisées
 		entitiesToRemove.stream().forEach((e)->entites.remove(e));
 		// Apparition des soleils
-		if (tickCount % this.difficulty.getSunApparitionFrequency() == 0) {
+		if (tickCount % this.difficulty.getSunApparitionFrequency(countOfSunflowers) == 0) {
 			entites.add(new Sun());
 		}
 		// Apparition des zombies 
@@ -154,6 +165,6 @@ public class GameWorld {
 	public static boolean gameLost() {
 		return gameLost;
 	}
-
+	
 
 }
