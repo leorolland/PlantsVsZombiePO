@@ -88,4 +88,9 @@ public abstract class Zombie extends Entite {
 			this.spriteAnimationFrame=0;
 	}
 
+	@Override
+	public void click() {
+		
+	}
+	
 }

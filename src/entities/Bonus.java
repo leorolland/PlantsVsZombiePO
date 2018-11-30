@@ -24,7 +24,13 @@ public abstract class Bonus extends Entite {
 	private int spriteAnimationFrame = 0;
 
     public Bonus(double x, double y, int points, String[] sprites) {
-        super(x, y);
+        super(x, y, 0);
+        this.points = points;
+        this.sprites = Arrays.asList(sprites);
+    }
+    
+    public Bonus(double x, double y, int points, String[] sprites, double hitRange) {
+        super(x, y, hitRange);
         this.points = points;
         this.sprites = Arrays.asList(sprites);
     }
@@ -45,4 +51,8 @@ public abstract class Bonus extends Entite {
 			this.spriteAnimationFrame=0;
     }
 
+    @Override
+	public void click() {
+    	
+	}
 }

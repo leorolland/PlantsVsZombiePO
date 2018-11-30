@@ -1,10 +1,8 @@
 package game;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.security.auth.login.Configuration;
 
 import entities.BasicZombie;
 import entities.Sunflower;
@@ -40,6 +38,10 @@ public class GameWorld {
 
 		difficulty = new EasySettings();
 
+		// on cree les collections
+		entites = new LinkedList<Entite>();
+		texts = new LinkedList<Text>();
+
 		gameWon=false;
 		gameLost=false;
 
@@ -48,9 +50,6 @@ public class GameWorld {
 		reserve = new Reserve(this.difficulty.getDefaultSuns());
 		texts.add(reserve);
 		
-		// on cree les collections
-		entites = new LinkedList<Entite>();
-		texts = new LinkedList<Text>();
 
 		// on rajoute une entite de demonstration
 		//entites.add(new TrucQuiBouge(0, 0.5));
@@ -103,14 +102,29 @@ public class GameWorld {
 	 * @param y position en y de la souris au moment du clic
 	 */
 	public void processMouseClick(double x, double y) {
-		System.out.println("La souris a été cliquée en : "+x+" - "+y);
+		for (Entite e : entites) {
+			float distanceSquarredFromEntity = (float) Math.pow(e.getX()-x, 2.0) + (float)Math.pow(e.getY()-y, 2.0);
+			// On compare les carrés des distances pour optimisation
+			if (distanceSquarredFromEntity < Math.pow(e.getHitRadius(), 2.0))
+				e.click();
+		}
 	}
 
 	// on fait bouger/agir toutes les entites
 	public void step() {
 		tickCount++;
-		for (Entite entite : this.entites)
+		// Mémorise les entités qui devront être supprimés après cette boucle itérative
+		List<Entite> entitiesToRemove = new ArrayList<Entite>();
+		for (Entite entite : entites) {
 			entite.step();
+			if (entite instanceof Sun) {
+				if (((Sun)entite).isClicked())
+					// Suppression de l'entite
+					entitiesToRemove.add(entite);
+				}
+		}
+		// Suppression des entités mémorisées
+		entitiesToRemove.stream().forEach((e)->entites.remove(e));
 		// apparition des soleils
 		if (tickCount % this.difficulty.getSunApparitionFrequency() == 0) {
 			entites.add(new Sun());

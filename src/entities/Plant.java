@@ -67,5 +67,10 @@ public abstract class Plant extends Entite {
 		else
 			this.spriteAnimationFrame=0;
 	}
+	
+	@Override
+	public void click() {
+		
+	}
 
 }
