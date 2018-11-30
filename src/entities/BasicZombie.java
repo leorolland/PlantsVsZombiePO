@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BasicZombie extends Zombie {
 	
@@ -11,6 +12,18 @@ public class BasicZombie extends Zombie {
 		"../assets/images/basic_zombie.png"
 	};
 
+	/**
+	 * Fait apparaître un zombie basic sur une ligne aléatoire entre 1 et 5
+	 */
+	public BasicZombie() {
+		// Construction de la liste des sprites
+		super(ThreadLocalRandom.current().nextInt(1, 6), BasicZombie.DEFAULT_HP, BasicZombie.DEFAULT_SPEED, BasicZombie.DEFAULT_ATQ, BasicZombie.DEFAULT_SPRITES);
+	}
+
+	/**
+	 * Fait apparaitre un zombie basique sur une ligne
+	 * @param ligne le numero de la ligne [ 1 ; 5 ]
+	 */
 	public BasicZombie(int ligne) {
 		// Construction de la liste des sprites
 		super(ligne, BasicZombie.DEFAULT_HP, BasicZombie.DEFAULT_SPEED, BasicZombie.DEFAULT_ATQ, BasicZombie.DEFAULT_SPRITES);

@@ -24,6 +24,11 @@ public abstract class Zombie extends Entite {
 	private int atq;
 
 	/**
+	 * État du zombie
+	 */
+	private ZombieState state;
+
+	/**
 	 * Sprites (Liste des images de l'animation)
 	 */
 	private List<String> sprites;

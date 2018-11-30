@@ -15,5 +15,18 @@ public abstract class Settings {
      * Default sun points amount
      */
     public abstract int getDefaultSuns();
+
+    /**
+     * Zombie apparition frequency in ticks^(-1)
+     * @return
+     */
+    public abstract int getBasicZombieApparitionFrequency();
     
+    /**
+     * contain the 
+     */
+    public abstract int getTankZombieApparitionFrequency();
+
+    public abstract int getZombieApparitionFrequency();
+    // TODO
 }

@@ -125,9 +125,13 @@ public class GameWorld {
 		}
 		// Suppression des entités mémorisées
 		entitiesToRemove.stream().forEach((e)->entites.remove(e));
-		// apparition des soleils
+		// Apparition des soleils
 		if (tickCount % this.difficulty.getSunApparitionFrequency() == 0) {
 			entites.add(new Sun());
+		}
+		// Apparition des zombies 
+		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
+			entites.add(new entities.BasicZombie());
 		}
 	}
 
