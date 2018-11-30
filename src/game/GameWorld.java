@@ -36,6 +36,7 @@ public class GameWorld {
 	// Nombre de sunflowers present sur le board
 	private int countOfSunflowers;
 	
+	
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 

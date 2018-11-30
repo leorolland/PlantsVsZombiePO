@@ -57,6 +57,9 @@ public abstract class Entite {
 	
 	// Quand l'entité est cliquée
 	public abstract void click();
-
+	public boolean isCollidedto(Entite e) {
+		float distanceSquarredFromEntity = (float) Math.pow(e.getX()-this.getX(), 2.0) + (float)Math.pow(e.getY()-this.getY(), 2.0);
+		return	e.hitRadius+this.hitRadius==distanceSquarredFromEntity; 		
+	}
 
 }
