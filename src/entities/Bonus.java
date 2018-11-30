@@ -21,18 +21,31 @@ public abstract class Bonus extends Entite {
 	/**
 	 * Sprite animation frame counter
 	 */
-	private int spriteAnimationFrame = 0;
+	private int spriteAnimationFrame;
+	
+	/**
+	 * Temps écoulé depuis l'apparition du bonus (en ticks)
+	 */
+	private int frameElapsed;
+	
+    public int getFrameElapsed() {
+		return frameElapsed;
+	}
 
-    public Bonus(double x, double y, int points, String[] sprites) {
+	public Bonus(double x, double y, int points, String[] sprites) {
         super(x, y, 0);
         this.points = points;
         this.sprites = Arrays.asList(sprites);
+        this.spriteAnimationFrame = 0;
+        this.frameElapsed = 0;
     }
     
     public Bonus(double x, double y, int points, String[] sprites, double hitRange) {
         super(x, y, hitRange);
         this.points = points;
         this.sprites = Arrays.asList(sprites);
+        this.spriteAnimationFrame = 0;
+        this.frameElapsed = 0;
     }
     
     @Override
@@ -42,6 +55,8 @@ public abstract class Bonus extends Entite {
 
     @Override
     public void dessine() {
+    	// Incrément du compteur de temps
+    	this.frameElapsed++;
         // Dessin du sprite correct
 		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.05, 0.1);
 		// IncrÃ©ment de l'animation de sprite

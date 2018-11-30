@@ -127,7 +127,8 @@ public class GameWorld {
 		for (Entite entite : entites) {
 			entite.step();
 			if (entite instanceof Sun) {
-				if (((Sun)entite).isClicked()) {
+				Sun sun = ((Sun)entite);
+				if (sun.isClicked() || sun.getFrameElapsed() > this.difficulty.getDefaultSunDisparitionTime()) {
 					// Suppression de l'entite
 					entitiesToRemove.add(entite);
 					//Ajout de 25 soleil a la reserve

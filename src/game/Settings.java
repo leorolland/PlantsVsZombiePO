@@ -15,6 +15,11 @@ public abstract class Settings {
      * Default sun points amount
      */
     public abstract int getDefaultSuns();
+    
+    /**
+     * Default sun disparition time
+     */
+    public abstract int getDefaultSunDisparitionTime();
 
     /**
      * Zombie apparition frequency in ticks^(-1)
