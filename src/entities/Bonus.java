@@ -5,6 +5,7 @@ import game.Entite;
 import java.util.Arrays;
 import java.util.List;
 import game.StdDraw;
+import game.Timer;
 
 public abstract class Bonus extends Entite {
 
@@ -24,28 +25,39 @@ public abstract class Bonus extends Entite {
 	private int spriteAnimationFrame;
 	
 	/**
+	 * Timer
+	 */
+	private Timer expirationTimer;
+	
+	/**
 	 * Temps écoulé depuis l'apparition du bonus (en ticks)
 	 */
 	private int frameElapsed;
-	
-    public int getFrameElapsed() {
-		return frameElapsed;
-	}
 
-	public Bonus(double x, double y, int points, String[] sprites) {
+	public Bonus(double x, double y, int points, String[] sprites, int visibilityTime) {
         super(x, y, 0);
         this.points = points;
         this.sprites = Arrays.asList(sprites);
         this.spriteAnimationFrame = 0;
         this.frameElapsed = 0;
+        this.expirationTimer = new Timer(visibilityTime);
     }
     
-    public Bonus(double x, double y, int points, String[] sprites, double hitRange) {
+    public Bonus(double x, double y, int points, String[] sprites, int visibilityTime, double hitRange) {
         super(x, y, hitRange);
         this.points = points;
         this.sprites = Arrays.asList(sprites);
         this.spriteAnimationFrame = 0;
         this.frameElapsed = 0;
+        this.expirationTimer = new Timer(visibilityTime);
+    }
+    
+    /*
+     * Permet de savoir si le timer du bonus est terminé
+     * @return true si le timer est terminé
+     */
+    public boolean hasExpired() {
+    	return this.expirationTimer.hasFinished();
     }
     
     @Override

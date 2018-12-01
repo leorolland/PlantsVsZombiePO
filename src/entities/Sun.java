@@ -17,12 +17,12 @@ public class Sun extends Bonus {
      */
     private boolean clicked;
     
-    public Sun() {
-        super(Math.random(), 0.1 + Math.random()* 0.7, Sun.DEFAULT_BONUS, Sun.DEFAULT_SPRITES, Sun.DEFAULT_HITRANGE);
+    public Sun(int visibilityTime) {
+        super(Math.random(), 0.1 + Math.random()* 0.7, Sun.DEFAULT_BONUS, Sun.DEFAULT_SPRITES, visibilityTime, Sun.DEFAULT_HITRANGE);
         clicked = false;
     }
-    public Sun(int x, int y) {
-        super(x, y, Sun.DEFAULT_BONUS, Sun.DEFAULT_SPRITES, Sun.DEFAULT_HITRANGE);
+    public Sun(int x, int y, int visibilityTime) {
+        super(x, y, Sun.DEFAULT_BONUS, Sun.DEFAULT_SPRITES, visibilityTime, Sun.DEFAULT_HITRANGE);
         clicked = false;
     }
     

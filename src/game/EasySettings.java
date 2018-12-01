@@ -7,7 +7,7 @@ public class EasySettings extends Settings {
     private final int DEFAULT_BASIC_ZOMBIE_APPARITION_FREQUENCY = 150;
     private final int DEFAULT_TANK_ZOMBIE_APPARITION_FREQUENCY = 450;
     private final int DEFAULT_ZOMBIE_APPARITION_FREQUENCY = 180;
-    private final int DEFAULT_SUN_DISPARITION_TIME = 600;
+    private final int DEFAULT_SUN_DISPARITION_TIME = 8000; // In miliseconds
 
 
     /**

@@ -128,7 +128,7 @@ public class GameWorld {
 			entite.step();
 			if (entite instanceof Sun) {
 				Sun sun = ((Sun)entite);
-				if (sun.isClicked() || sun.getFrameElapsed() > this.difficulty.getDefaultSunDisparitionTime()) {
+				if (sun.isClicked() || sun.hasExpired()) {
 					// Suppression de l'entite
 					entitiesToRemove.add(entite);
 					//Ajout de 25 soleil a la reserve
@@ -140,7 +140,7 @@ public class GameWorld {
 		entitiesToRemove.stream().forEach((e)->entites.remove(e));
 		// Apparition des soleils
 		if (tickCount % this.difficulty.getSunApparitionFrequency(countOfSunflowers) == 0) {
-			entites.add(new Sun());
+			entites.add(new Sun(this.difficulty.getDefaultSunDisparitionTime()));
 		}
 		// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
@@ -150,9 +150,7 @@ public class GameWorld {
 
 	// dessine les entites du jeu
 	public void dessine() {
-		
-		StdDraw.clear();
-		
+				
 		// Affiche le background
 		StdDraw.picture(0.5, 0.5, "../assets/images/background.png");
 				
