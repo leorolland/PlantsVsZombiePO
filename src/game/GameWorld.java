@@ -2,7 +2,6 @@ package game;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.List;
 
 import entities.BasicZombie;

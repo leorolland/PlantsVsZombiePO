@@ -1,7 +1,5 @@
 package entities;
 
-import ihm.Reserve;
-
 public class Sun extends Bonus {
 
     // Default BasicZombie properties

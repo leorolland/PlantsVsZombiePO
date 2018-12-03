@@ -1,11 +1,9 @@
 package game;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import entities.BasicZombie;
 import entities.Plant;
 import entities.Zombie;
 import entities.ZombieState;
