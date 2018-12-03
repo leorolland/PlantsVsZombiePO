@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.List;
 
 import entities.BasicZombie;
@@ -36,6 +37,9 @@ public class GameWorld {
 	// Nombre de sunflowers present sur le board
 	private int countOfSunflowers;
 	
+	// Champ de bataille (stoque les zombies et les plantes)
+	private Battlefield battlefield;
+	
 	
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
@@ -45,7 +49,8 @@ public class GameWorld {
 		// on cree les collections
 		entites = new LinkedList<Entite>();
 		texts = new LinkedList<Text>();
-
+		battlefield = new Battlefield();
+		
 		gameWon=false;
 		gameLost=false;
 
@@ -57,21 +62,22 @@ public class GameWorld {
 
 		// on rajoute une entite de demonstration
 		//entites.add(new TrucQuiBouge(0, 0.5));
-		entites.add(new BasicZombie(1));
-		entites.add(new BasicZombie(2));
-		entites.add(new BasicZombie(3));
-		entites.add(new BasicZombie(4));
-		entites.add(new BasicZombie(5));
+		battlefield.spawnPlant(Sunflower.class, 1, 1);
+		countOfSunflowers++;
+
+		battlefield.spawnPlant(Sunflower.class, 2, 2);
+		countOfSunflowers++;
+
+		battlefield.spawnPlant(Sunflower.class, 3, 3);
+		countOfSunflowers++;
 		
-		entites.add(new Sunflower(1, 1));
+		battlefield.spawnPlant(Sunflower.class, 4, 4);
 		countOfSunflowers++;
-		entites.add(new Sunflower(2, 1));
+		
+		battlefield.spawnPlant(Sunflower.class, 5, 5);
 		countOfSunflowers++;
-		entites.add(new Sunflower(3, 2));
-		countOfSunflowers++;
-		entites.add(new Sunflower(4, 3));
-		countOfSunflowers++;
-		entites.add(new Sunflower(5, 3));
+		
+		battlefield.spawnPlant(Sunflower.class, 5, 9);
 		countOfSunflowers++;
 
 
@@ -122,6 +128,8 @@ public class GameWorld {
 	// on fait bouger/agir toutes les entites
 	public void step() {
 		tickCount++;
+		// Exécution de l afonction step du champ de bataille
+		this.battlefield.step();
 		// Mémorise les entités qui devront être supprimés après cette boucle itérative
 		List<Entite> entitiesToRemove = new ArrayList<Entite>();
 		for (Entite entite : entites) {
@@ -144,7 +152,7 @@ public class GameWorld {
 		}
 		// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
-			entites.add(new entities.BasicZombie());
+			this.battlefield.spawnBasicZombie(BasicZombie.class);
 		}
 	}
 
@@ -153,6 +161,11 @@ public class GameWorld {
 				
 		// Affiche le background
 		StdDraw.picture(0.5, 0.5, "../assets/images/background.png");
+		
+		// Affiche les entites du champ de bataille
+		this.battlefield.getAllEntities().stream().forEach((Entite e)->{
+			e.dessine();
+		});
 				
 		// affiche les entites
 		for (Entite entite : entites)

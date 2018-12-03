@@ -30,7 +30,7 @@ public abstract class Bonus extends Entite {
 	private Timer expirationTimer;
 	
 	/**
-	 * Temps écoulé depuis l'apparition du bonus (en ticks)
+	 * Temps ï¿½coulï¿½ depuis l'apparition du bonus (en ticks)
 	 */
 	private int frameElapsed;
 
@@ -53,8 +53,8 @@ public abstract class Bonus extends Entite {
     }
     
     /*
-     * Permet de savoir si le timer du bonus est terminé
-     * @return true si le timer est terminé
+     * Permet de savoir si le timer du bonus est terminï¿½
+     * @return true si le timer est terminï¿½
      */
     public boolean hasExpired() {
     	return this.expirationTimer.hasFinished();
@@ -67,10 +67,10 @@ public abstract class Bonus extends Entite {
 
     @Override
     public void dessine() {
-    	// Incrément du compteur de temps
+    	// Incrï¿½ment du compteur de temps
     	this.frameElapsed++;
         // Dessin du sprite correct
-		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.05, 0.1);
+		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.06, 0.06);
 		// IncrÃ©ment de l'animation de sprite
 		if (this.spriteAnimationFrame + 1 < this.sprites.size())
 			this.spriteAnimationFrame++;

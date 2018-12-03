@@ -31,7 +31,12 @@ public abstract class Zombie extends Entite {
 	/**
 	 * Sprites (Liste des images de l'animation)
 	 */
-	private List<String> sprites;
+	private List<String> walkingSprite;
+	
+	/**
+	 * Sprites (Liste des images de l'animation)
+	 */
+	private List<String> attackingSprite;
 
 	/**
 	 * Sprite animation frame counter
@@ -39,7 +44,7 @@ public abstract class Zombie extends Entite {
 	private int spriteAnimationFrame;
 	
 	/**
-	 * Nombre d'images g�n�r�es depuis l'apparition du zombie
+	 * Nombre d'images g�n�r�es depuis l'apparition du zombie
 	 */
 	private int frameElapsed;
 
@@ -74,35 +79,57 @@ public abstract class Zombie extends Entite {
 	 * @param hp les points de vie du zombie
 	 * @param atq les points d'attaque du zombie
 	 */
-	public Zombie(int ligne, int hp, double speed, int atq, String[] sprites) {
+	public Zombie(int ligne, int hp, double speed, int atq, String[] walkingSprite) {
 		super(1, 0.06 + 0.122 * ligne);
 		this.hp = hp;
 		this.speed = speed;
 		this.atq = atq;
-		this.sprites = Arrays.asList(sprites);
+		this.walkingSprite = Arrays.asList(walkingSprite);
 		this.spriteAnimationFrame = 0;
 		this.frameElapsed = 0;
+		this.state = ZombieState.MARCHE;
 	}
 	
 	@Override
 	public void step() {
-		this.position.setX(this.getX() - 0.0010 * this.speed);
+		if (this.state == ZombieState.MARCHE)
+			this.position.setX(this.getX() - 0.0010 * this.speed);
 	}
 	
 	@Override
 	public void dessine() {
-		// Incr�ment du compteur de temps d'apparition
+		// Incr�ment du compteur de temps d'apparition
 		this.frameElapsed++;
+		
+		// Sprite actuellement utilisé (dépend du mode
+		List<String> sprite = null;
+		if (this.state == ZombieState.MARCHE)
+			sprite = this.walkingSprite;
+		else if (this.state == ZombieState.ATTAQUE)
+			sprite = this.walkingSprite;
+		
 		// Dessin du sprite correct
 		StdDraw.picture(this.getX()+0.028, this.getY()-0.065, "../assets/images/shadow.png", 0.1, 0.06);
-		StdDraw.picture(this.getX(), this.getY(), this.sprites.get(this.spriteAnimationFrame), 0.08, 0.1);
+		StdDraw.picture(this.getX(), this.getY(), sprite.get(this.spriteAnimationFrame), 0.08, 0.1);
 		// Incrément de l'animation de sprite
 		if (this.frameElapsed % 12 == 0) {
-			if (this.spriteAnimationFrame + 1 < this.sprites.size())
+			if (this.spriteAnimationFrame + 1 < sprite.size())
 				this.spriteAnimationFrame++;
 			else
 				this.spriteAnimationFrame=0;
 		}
+	}
+
+	public ZombieState getState() {
+		return state;
+	}
+
+	public void setState(ZombieState state) {
+		// Si l'état est le même que l'état précédent, on abandonne
+		if (this.state == state)
+			return;
+		this.state = state;
+		this.spriteAnimationFrame = 0;
 	}
 
 	@Override

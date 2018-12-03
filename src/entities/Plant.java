@@ -51,16 +51,16 @@ public abstract class Plant extends Entite {
 	}
 
 	public Plant(int ligne, int colonne, int hp, int cost, int timeBeforeRebuying, String[] sprites) {
-		super(0.06 + 0.10 * colonne, 0.06 + 0.15 * ligne);
+		super(0.015 + 0.10 * colonne, 0.06 + 0.122 * ligne);
 		this.hp = hp;
 		this.cost = cost;
 		this.sprites = Arrays.asList(sprites);
 		this.timeBeforeRebuying=timeBeforeRebuying;
 	}
-	public int gettimeBeforeRebuying(){
+	public int getTimeBeforeRebuying(){
 		return timeBeforeRebuying;
 	}
-	public void settimeBeforeRebuying(int timeBeforeRebuying) {
+	public void setTimeBeforeRebuying(int timeBeforeRebuying) {
 		this.timeBeforeRebuying=timeBeforeRebuying;
 	}
 
