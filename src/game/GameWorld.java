@@ -9,6 +9,7 @@ import entities.Sunflower;
 import entities.Sun;
 import ihm.Reserve;
 import ihm.Text;
+import ihm.Boutique;
 
 public class GameWorld {
 
@@ -38,7 +39,9 @@ public class GameWorld {
 	
 	// Champ de bataille (stoque les zombies et les plantes)
 	private Battlefield battlefield;
-	
+
+	// Boutique du jeu
+	private Boutique boutique;
 	
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
@@ -56,8 +59,10 @@ public class GameWorld {
 		tickCount = 0;
 		
 		reserve = new Reserve(this.difficulty.getDefaultSuns());
-		texts.add(reserve);
-		
+		texts.add(reserve);	
+
+		// On instancie la boutique en lui passant le champ de bataille et la réserve en paramètre
+		this.boutique = new Boutique(battlefield, reserve);
 
 		// on rajoute une entite de demonstration
 		//entites.add(new TrucQuiBouge(0, 0.5));
@@ -78,8 +83,6 @@ public class GameWorld {
 		
 		battlefield.spawnPlant(Sunflower.class, 5, 9);
 		countOfSunflowers++;
-
-
 	}
 
 	/**
@@ -89,24 +92,7 @@ public class GameWorld {
 	 *            Touche pressee par l'utilisateur
 	 */
 	public void processUserInput(char key) {
-		switch (key) {
-		case 't':
-			System.out.println("Le joueur veut planter un Tournesol...");
-			// TODO
-			break;
-		case 'p':
-			System.out.println("Le joueur veut planter un Tire-Pois...");
-			// TODO
-			break;
-		case 'n':
-			System.out.println("Le joueur veut planter une Noix...");
-			// TODO
-			break;
-
-		default:
-			System.out.println("Touche non prise en charge");
-			break;
-		}
+		this.boutique.processKeyboardInput(key);
 	}
 	
 	/**
@@ -116,6 +102,7 @@ public class GameWorld {
 	 * @param y position en y de la souris au moment du clic
 	 */
 	public void processMouseClick(double x, double y) {
+		Boutique.determineLineNumber(y);
 		for (Entite e : entites) {
 			float distanceSquarredFromEntity = (float) Math.pow(e.getX()-x, 2.0) + (float)Math.pow(e.getY()-y, 2.0);
 			// On compare les carrés des distances pour optimisation

@@ -14,6 +14,19 @@ public class Reserve extends Text {
 	public int getAmount() {
 		return amount;
 	}
+
+	/**
+	 * Tente de retirer amount sur le compte, et renvoie le résultat
+	 * @return true si l'opération est un succès, false sinon
+	 */
+	public boolean pay(int amount) {
+		if (amount <= this.amount) {
+			this.amount -= amount;
+			return true;
+		} 
+		return false;
+	}
+
 	public void setAmount(int amount) {
 		this.amount = amount;
 		this.setContent(String.valueOf(this.amount));
