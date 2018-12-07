@@ -8,15 +8,15 @@ public class Reserve extends Text {
 	private int amount;
 	
 	public Reserve(int amount) {
-		super("Reserve : " + String.valueOf(amount), 0.2, 0.9);
-		this.amount =amount;
+		super(String.valueOf(amount), 0.067, 0.84, 30);
+		this.amount = amount;
 	}
 	public int getAmount() {
 		return amount;
 	}
 	public void setAmount(int amount) {
-		this.setContent(String.valueOf(this.amount));
 		this.amount = amount;
+		this.setContent(String.valueOf(this.amount));
 	}
 	
 }
