@@ -2,12 +2,17 @@ package ihm;
 
 import game.Position;
 import game.StdDraw;
+import java.awt.Font;
 
 public abstract class Text {
+
 	private String content;
 	protected Position position;
-	public Text(String content, double x, double y) {
-		this.content=content;
+	private Font font; 
+
+	public Text(String content, double x, double y, int fontSize) {
+		this.content = content;
+		this.font = new Font("Arial", Font.BOLD, fontSize);
 		position = new Position(x, y);
 	}
 	public String getContent() {
@@ -23,6 +28,7 @@ public abstract class Text {
 		this.position = position;
 	}
 	public void dessine() {
+   		StdDraw.setFont(this.font);
 		StdDraw.text(position.getX(), position.getY(), content);
 	}
 }
