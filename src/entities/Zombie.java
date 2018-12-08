@@ -79,7 +79,7 @@ public abstract class Zombie extends Entite {
 	 * @param hp les points de vie du zombie
 	 * @param atq les points d'attaque du zombie
 	 */
-	public Zombie(int ligne, int hp, double speed, int atq, String[] walkingSprite) {
+	public Zombie(int ligne, int hp, double speed, int atq, String[] walkingSprite, String[] attackSprite) {
 		super(1, 0.06 + 0.122 * ligne);
 		this.hp = hp;
 		this.speed = speed;
@@ -88,6 +88,7 @@ public abstract class Zombie extends Entite {
 		this.spriteAnimationFrame = 0;
 		this.frameElapsed = 0;
 		this.state = ZombieState.MARCHE;
+		this.attackingSprite = Arrays.asList(attackSprite);
 	}
 	
 	@Override
@@ -103,16 +104,19 @@ public abstract class Zombie extends Entite {
 		
 		// Sprite actuellement utilisé (dépend du mode
 		List<String> sprite = null;
-		if (this.state == ZombieState.MARCHE)
+		// Speed animation frequency in steps^-1
+		if (this.state == ZombieState.MARCHE) {			
 			sprite = this.walkingSprite;
-		else if (this.state == ZombieState.ATTAQUE)
-			sprite = this.walkingSprite;
+		}
+		else if (this.state == ZombieState.ATTAQUE) {
+			sprite = this.attackingSprite;
+		}
 		
 		// Dessin du sprite correct
 		StdDraw.picture(this.getX()+0.028, this.getY()-0.065, "../assets/images/shadow.png", 0.1, 0.06);
 		StdDraw.picture(this.getX(), this.getY(), sprite.get(this.spriteAnimationFrame), 0.08, 0.1);
 		// Incrément de l'animation de sprite
-		if (this.frameElapsed % 12 == 0) {
+		if (this.frameElapsed % 9 == 0) {
 			if (this.spriteAnimationFrame + 1 < sprite.size())
 				this.spriteAnimationFrame++;
 			else
