@@ -29,7 +29,7 @@ public class BasicZombie extends Zombie {
 	 */
 	public BasicZombie(int ligne) {
 		// Construction de la liste des sprites
-		super(ligne, BasicZombie.DEFAULT_HP, BasicZombie.DEFAULT_SPEED, BasicZombie.DEFAULT_ATQ, BasicZombie.DEFAULT_SPRITES_WALK, BasicZombie.DEFAULT_SPRITES_ATTACK);
+		super(ligne, DEFAULT_HP, DEFAULT_SPEED, DEFAULT_ATQ, DEFAULT_SPRITES_WALK, DEFAULT_SPRITES_ATTACK);
 	}
 	
 }

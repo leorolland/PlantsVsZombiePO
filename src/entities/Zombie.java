@@ -90,7 +90,6 @@ public abstract class Zombie extends Entite {
 		this.state = ZombieState.MARCHE;
 		this.attackingSprite = Arrays.asList(attackSprite);
 	}
-	
 	@Override
 	public void step() {
 		if (this.state == ZombieState.MARCHE)

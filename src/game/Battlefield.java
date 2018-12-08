@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import entities.Plant;
@@ -14,6 +15,11 @@ import entities.ZombieState;
  *
  */
 public class Battlefield {
+
+	/**
+	 * Range d'attaque par défaut des zombies
+	 */
+	private final double DEFAULT_ZOMBIE_RANGE = 0.02;
 	
 	/**
 	 * Décrit un cadrillage de 5 x 9 dans lequel des plantes peuvent être situées
@@ -137,23 +143,30 @@ public class Battlefield {
 	 * arrivé à la fin ou doit commencer à manger une plante
 	 */
 	public void step() {
-		// Pour chaque ligne on vérifie si un zombie doit manger une plante
-		// i modélise la ligne
+
+		// Pour chaque ligne on vérifie pour chaque zombie s'il doit manger une plante
+		// i modélise la ligne [1 - 5]
 		for (int i = 1; i < plantField.length + 1; i++) {
-			// On détermine la plante la plus à droite de la ligne
-			Plant rightest = this.rightestPlantInALine(i);
+
+			// On fixe la valeur de i dans une constante afin de satisfaire les éxigeances de variables "final or effectively final"
+			// plus d'infos : http://ilkinulas.github.io/programming/java/2016/03/27/effectively-final-java.html
+			final int counter = i;
+
 			// Pour chaque zombie présent sur cette ligne
 			this.zombieField.get(i-1).stream().forEach((Zombie z) -> {
-				if (z.getX() < rightest.getX()+0.03) {
-					z.setState(ZombieState.ATTAQUE);
+
+				// On regarde s'il est a proximité d'une plante
+				for (Plant plant : plantField[counter-1]) {
+					if (plant != null) {
+						// Si la plante est à proximité du zombie, alors le zombie l'attaque
+						if (Math.abs(plant.getX() - z.getX()) < DEFAULT_ZOMBIE_RANGE) {
+							z.setState(ZombieState.ATTAQUE);
+						}
+					}
 				}
+				
 			});
 		}
-		this.zombieField.stream().forEach((ArrayList<Zombie> a) -> {
-			a.forEach((Zombie z) -> {
-				
-			}); 
-		});
 		// Exécution du step de toutes les entités
 		this.getAllEntities().stream().forEach((Entite e)->{
 			e.step();

@@ -102,7 +102,6 @@ public class GameWorld {
 	 * @param y position en y de la souris au moment du clic
 	 */
 	public void processMouseClick(double x, double y) {
-		System.out.println("Case cliquée" + Boutique.determineLineNumber() + " ; " + Boutique.determineColumnNumber());
 		for (Entite e : entites) {
 			float distanceSquarredFromEntity = (float) Math.pow(e.getX()-x, 2.0) + (float)Math.pow(e.getY()-y, 2.0);
 			// On compare les carrés des distances pour optimisation
