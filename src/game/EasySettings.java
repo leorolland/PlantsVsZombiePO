@@ -3,7 +3,7 @@ package game;
 public class EasySettings extends Settings {
 
     private final int SUN_APPARITION_FREQUENCY = 0;
-    private final int DEFAULT_SUNS = 50;
+    private final int DEFAULT_SUNS = 50*100;
     private final int DEFAULT_BASIC_ZOMBIE_APPARITION_FREQUENCY = 150;
     private final int DEFAULT_TANK_ZOMBIE_APPARITION_FREQUENCY = 450;
     private final int DEFAULT_ZOMBIE_APPARITION_FREQUENCY = 180;

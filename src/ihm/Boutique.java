@@ -1,6 +1,7 @@
 package ihm;
 
 import game.Battlefield;
+import game.StdDraw;
 import game.Timer;
 import ihm.Reserve;
 import entities.Sunflower;
@@ -27,7 +28,7 @@ public class Boutique {
     /**
      * Timer de réachat d'un Sunflower
      */
-    private Timer SunflowerTimer;
+    private Timer sunflowerTimer;
 
     /**
      * Instancie une boutique
@@ -37,7 +38,7 @@ public class Boutique {
     public Boutique(Battlefield bf, Reserve res) {
         this.battlefield = bf;
         this.reserve = res;   
-        this.SunflowerTimer = new Timer(0);
+        this.sunflowerTimer = new Timer(0);
     }
 
     /**
@@ -46,11 +47,30 @@ public class Boutique {
      * @param mousePosition La position de la souris
      * @return le numéro de la ligne [1 - 5]
      */
-    public static int determineLineNumber(double mouseXPosition) {
-        mouseXPosition -= 0.1;
-        int line = (int) (mouseXPosition / 0.122);
-        System.out.println(line);
-        return line;
+    public static int determineLineNumber() {
+        double mouseYPosition = StdDraw.mouseY();
+        mouseYPosition -= 0.1;
+        int line = 1 + (int) (mouseYPosition / 0.122);
+        if (line > 5)
+            return 5;
+        else
+            return line;
+    }
+
+    /**
+     * Renvoie la coordonnée X de la case cliquée du champ de bataille
+     * en fonction de la coordonnée X de la souris.
+     * @param mousePosition La position de la souris
+     * @return le numéro de la ligne [1 - 5]
+     */
+    public static int determineColumnNumber() {
+        double mouseXPosition = StdDraw.mouseX();
+        mouseXPosition -= 0.067;
+        int line = 1 + (int) (mouseXPosition / 0.10);
+        if (line > 9)
+            return 9;
+        else
+            return line;
     }
 
     public void processKeyboardInput(char key) {
@@ -58,9 +78,11 @@ public class Boutique {
             // Achat d'un Sunflower
             case 't':
                 // Si le temps de réachat est écoulé et que le paiement de la plante est un succès
-                if (this.SunflowerTimer.hasFinished() && this.reserve.pay(Sunflower.DEFAULT_COST)) {
+                if (this.sunflowerTimer.hasFinished() && this.reserve.pay(Sunflower.DEFAULT_COST)) {
                     // On fait apparaître la plante
-                    this.battlefield.spawnPlant(Sunflower.class, 2, 3);
+                    this.battlefield.spawnPlant(Sunflower.class, determineLineNumber(), determineColumnNumber());
+                    // Remise à zéro du timer
+                    this.sunflowerTimer = new Timer(1000);
                 }
                 break;
             default:
