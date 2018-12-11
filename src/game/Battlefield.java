@@ -19,7 +19,7 @@ public class Battlefield {
 	/**
 	 * Range d'attaque par défaut des zombies
 	 */
-	private final double DEFAULT_ZOMBIE_RANGE = 0.02;
+	private final double DEFAULT_ZOMBIE_RANGE = 0.05;
 	
 	/**
 	 * Décrit un cadrillage de 5 x 9 dans lequel des plantes peuvent être situées
