@@ -4,6 +4,7 @@ import game.Battlefield;
 import game.StdDraw;
 import game.Timer;
 import ihm.Reserve;
+import entities.PoisPlant;
 import entities.Sunflower;
 
 /**
@@ -29,6 +30,11 @@ public class Boutique {
      * Timer de réachat d'un Sunflower
      */
     private Timer sunflowerTimer;
+    
+    /**
+     * Timer de réachat d'un Sunflower
+     */
+    private Timer poisplantTimer;
 
     /**
      * Instancie une boutique
@@ -39,6 +45,7 @@ public class Boutique {
         this.battlefield = bf;
         this.reserve = res;   
         this.sunflowerTimer = new Timer(0);
+        this.poisplantTimer = new Timer(0);
     }
 
     /**
@@ -88,11 +95,11 @@ public class Boutique {
              // Achat d'un poisplant
             case 'p':
                 // Si le temps de réachat est écoulé et que le paiement de la plante est un succès
-                if (this.sunflowerTimer.hasFinished() && this.reserve.pay(Sunflower.DEFAULT_COST)) {
+                if (this.poisplantTimer.hasFinished() && this.reserve.pay(PoisPlant.DEFAULT_COST)) {
                     // On fait apparaître la plante
-                    this.battlefield.spawnPlant(Sunflower.class, determineLineNumber(), determineColumnNumber());
+                    this.battlefield.spawnPlant(PoisPlant.class, determineLineNumber(), determineColumnNumber());
                     // Remise à zéro du timer
-                    this.sunflowerTimer = new Timer(1000);
+                    this.poisplantTimer = new Timer(1000);
                 }
                 break;
             default:
