@@ -135,7 +135,8 @@ public class Battlefield {
 	}
 	
 	public Entite leftestZombieInALine(int ligne) {
-		return null;
+		ArrayList<Zombie> a = zombieField.get(ligne);
+		return a.get(0);
 	}
 	
 	/**
