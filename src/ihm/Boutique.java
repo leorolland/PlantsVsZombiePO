@@ -85,6 +85,16 @@ public class Boutique {
                     this.sunflowerTimer = new Timer(1000);
                 }
                 break;
+             // Achat d'un poisplant
+            case 'p':
+                // Si le temps de réachat est écoulé et que le paiement de la plante est un succès
+                if (this.sunflowerTimer.hasFinished() && this.reserve.pay(Sunflower.DEFAULT_COST)) {
+                    // On fait apparaître la plante
+                    this.battlefield.spawnPlant(Sunflower.class, determineLineNumber(), determineColumnNumber());
+                    // Remise à zéro du timer
+                    this.sunflowerTimer = new Timer(1000);
+                }
+                break;
             default:
                 System.out.println("Touche non prise en charge");
                 break;
