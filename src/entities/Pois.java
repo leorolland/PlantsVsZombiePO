@@ -6,9 +6,9 @@ public class Pois extends Entite {
 	private double hp=1;
 	private double speed = -0.50;
 	private int atq =25;
-	private static final String[] DEFAULT_SPRITES= {};
+	private static final String[] DEFAULT_SPRITES= {"../assets/images/roundup.png"};
 	
-	public Pois(int ligne, int colonne) {
+	public Pois(double ligne, double colonne) {
 		super(colonne,ligne);
 		}
 	
@@ -39,5 +39,8 @@ public class Pois extends Entite {
 	public void attaque(Zombie a) {
 		a.setHp(a.getHp()-this.atq);
 		this.setHp(0);
+	}
+	public void dessine() {
+		
 	}
 }
