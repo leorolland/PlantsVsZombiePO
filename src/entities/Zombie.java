@@ -139,5 +139,11 @@ public abstract class Zombie extends Entite {
 	public void click() {
 		
 	}
+
+	public void attaque(Plant a) {
+		if(this.getState()==ZombieState.ATTAQUE) {
+			a.setHp(a.getHp()-this.atq);
+		}
+	}
 	
 }
