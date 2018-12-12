@@ -4,6 +4,8 @@ import game.Battlefield;
 import game.StdDraw;
 import game.Timer;
 import ihm.Reserve;
+import entities.PoisPlant;
+import entities.ShieldPlant;
 import entities.Sunflower;
 
 /**
@@ -29,6 +31,16 @@ public class Boutique {
      * Timer de réachat d'un Sunflower
      */
     private Timer sunflowerTimer;
+    
+    /**
+     * Timer de réachat d'un poisPlant
+     */
+    private Timer poisPlantTimer;
+    
+    /**
+     * Timer de réachat d'un shieldPlant
+     */
+    private Timer shieldPlantTimer;
 
     /**
      * Instancie une boutique
@@ -39,6 +51,8 @@ public class Boutique {
         this.battlefield = bf;
         this.reserve = res;   
         this.sunflowerTimer = new Timer(0);
+        this.poisPlantTimer = new Timer(0);
+        this.shieldPlantTimer = new Timer(0);
     }
 
     /**
@@ -72,6 +86,21 @@ public class Boutique {
         else
             return line;
     }
+    
+    
+    /**
+     * Renvoie la coordonnée X de la case en fonction d'une coordonnée verticale brute
+     * @param mousePosition La coordonnée brute verticale
+     * @return le numéro de la ligne [1 - 5]
+     */
+    public static int determineLineNumber(double mouseYPosition) {
+        mouseYPosition -= 0.1;
+        int line = 1 + (int) (mouseYPosition / 0.122);
+        if (line > 5)
+            return 5;
+        else
+            return line;
+    }
 
     public void processKeyboardInput(char key) {
         switch (key) {
@@ -82,7 +111,27 @@ public class Boutique {
                     // On fait apparaître la plante
                     this.battlefield.spawnPlant(Sunflower.class, determineLineNumber(), determineColumnNumber());
                     // Remise à zéro du timer
-                    this.sunflowerTimer = new Timer(1000);
+                    this.sunflowerTimer = new Timer(Sunflower.DEFAULT_TIME_BEFORE_REBUYING);
+                }
+                break;
+            // Achat d'un poisplant
+            case 'p':
+                // Si le temps de réachat est écoulé et que le paiement de la plante est un succès
+                if (this.poisPlantTimer.hasFinished() && this.reserve.pay(PoisPlant.DEFAULT_COST)) {
+                    // On fait apparaître la plante
+                    this.battlefield.spawnPlant(PoisPlant.class, determineLineNumber(), determineColumnNumber());
+                    // Remise à zéro du timer
+                    this.poisPlantTimer = new Timer(PoisPlant.DEFAULT_TIME_BEFORE_REBUYING);
+                }
+                break;
+            // Achat d'un Shieldplant
+            case 's':
+                // Si le temps de réachat est écoulé et que le paiement de la plante est un succès
+                if (this.shieldPlantTimer.hasFinished() && this.reserve.pay(ShieldPlant.DEFAULT_COST)) {
+                    // On fait apparaître la plante
+                    this.battlefield.spawnPlant(ShieldPlant.class, determineLineNumber(), determineColumnNumber());
+                    // Remise à zéro du timer
+                    this.shieldPlantTimer = new Timer(ShieldPlant.DEFAULT_TIME_BEFORE_REBUYING);
                 }
                 break;
             default:

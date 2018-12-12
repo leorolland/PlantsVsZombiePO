@@ -20,8 +20,8 @@ public class Reserve extends Text {
 	 * @return true si l'opération est un succès, false sinon
 	 */
 	public boolean pay(int amount) {
-		if (amount <= this.amount) {
-			this.amount -= amount;
+		if (amount <= this.getAmount()) {
+			this.setAmount(this.getAmount() - amount);
 			return true;
 		} 
 		return false;

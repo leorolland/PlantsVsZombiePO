@@ -1,24 +1,23 @@
 package entities;
 
 import game.Entite;
+import game.StdDraw;
 
-public abstract class Pois extends Entite {
-	private  double hp=1;
-	private double speed = -0.50;
-	private int atq =25;
-	private static final String[] DEFAULT_SPRITES= {};
+public class Pois extends Entite {
+	private double hp=1;
+	private double speed = -4.0;
+	private int atq = 25;
+	private double sprite_rotation = 0;
+	private static final String[] DEFAULT_SPRITES= {"../assets/images/roundup.png"};
 	
-	public Pois(double hp, double speed, int atq, double ligne, double colonne) {
-		super(colonne,ligne);
-		this.hp=hp;
-		this.speed=speed;
-		this.atq=atq;
+	public Pois(double ligne, double colonne) {
+		super(ligne, colonne);
 	}
+	
 	@Override	
 	public void step() {
 		this.position.setX(this.getX() - 0.0010 * this.speed);
 	}
-	
 	
 	public double getHp() {
 		return hp;
@@ -40,6 +39,16 @@ public abstract class Pois extends Entite {
 	}
 	public void attaque(Zombie a) {
 		a.setHp(a.getHp()-this.atq);
-		this.getHp();
+		this.setHp(0);
+	}
+	public void dessine() {
+		StdDraw.picture(getX(), getY(), DEFAULT_SPRITES[0], 0.05, 0.03, sprite_rotation);
+		StdDraw.picture(getX(), getY()-0.05, "/assets/images/shadow.png", 0.05, 0.03);
+		sprite_rotation -= 5;
+	}
+
+	@Override
+	public void click() {
+
 	}
 }

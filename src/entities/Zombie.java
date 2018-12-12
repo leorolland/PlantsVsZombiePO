@@ -5,10 +5,13 @@ import java.util.List;
 
 import game.Entite;
 import game.StdDraw;
+import game.Timer;
 
 public abstract class Zombie extends Entite {
 	
-	/*
+	public static final int DEFAULT_ATQ_TICK_FREQUENCY = 1000;// in miliseconds;
+	
+	/**
 	 * Points de vie (Health Points)
 	 */
 	private int hp;
@@ -47,6 +50,21 @@ public abstract class Zombie extends Entite {
 	 * Nombre d'images g�n�r�es depuis l'apparition du zombie
 	 */
 	private int frameElapsed;
+	
+	/**
+	 * Définit si le zombie est prêt à attaquer ou non.
+	 */
+	private boolean isReadyToAttack;
+	
+	/**
+	 * Une fois le compteur écoulé, le booléen isReadyToAttack peut
+	 * repasser à true, le zombie est de nouveau prêt à attaquer
+	 */
+	private Timer readyToAttackTimer;
+	
+	public boolean isReadyToAttack() {
+		return isReadyToAttack;
+	}
 
 	public int getHp() {
 		return hp;
@@ -89,16 +107,22 @@ public abstract class Zombie extends Entite {
 		this.frameElapsed = 0;
 		this.state = ZombieState.MARCHE;
 		this.attackingSprite = Arrays.asList(attackSprite);
+		this.isReadyToAttack = true;
+		this.readyToAttackTimer = new Timer(0);
 	}
 	@Override
 	public void step() {
+		// Si le zombie est en état de marche, on le fait avancer proportionellement à sa vitesse.
 		if (this.state == ZombieState.MARCHE)
 			this.position.setX(this.getX() - 0.0010 * this.speed);
+		// Si le timer d'attente entre chaque attaque est écoulé on réinitialise l'état à true
+		if (this.readyToAttackTimer.hasFinished())
+			this.isReadyToAttack = true;
 	}
 	
 	@Override
 	public void dessine() {
-		// Incr�ment du compteur de temps d'apparition
+		// Incrément du compteur de temps d'apparition
 		this.frameElapsed++;
 		
 		// Sprite actuellement utilisé (dépend du mode
@@ -141,9 +165,9 @@ public abstract class Zombie extends Entite {
 	}
 
 	public void attaque(Plant a) {
-		if(this.getState()==ZombieState.ATTAQUE) {
-			a.setHp(a.getHp()-this.atq);
-		}
+		this.isReadyToAttack = false;
+		a.setHp(a.getHp()-this.atq);
+		this.readyToAttackTimer = new Timer(DEFAULT_ATQ_TICK_FREQUENCY);
 	}
 	
 }
