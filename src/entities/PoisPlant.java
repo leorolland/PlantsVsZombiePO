@@ -1,5 +1,7 @@
 package entities;
 
+import game.Battlefield;
+
 public class PoisPlant extends Plant {
 
 	// Default Sunflower properties
@@ -25,5 +27,6 @@ public class PoisPlant extends Plant {
 	public PoisPlant(int ligne, int colonne) {
 		super(ligne, colonne, DEFAULT_HP, DEFAULT_COST, DEFAULT_TIME_BEFORE_REBUYING, DEFAULT_SPRITES);
 	}
+	
 
 }

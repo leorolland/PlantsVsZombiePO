@@ -1,11 +1,14 @@
 package game;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import entities.Plant;
+import entities.Pois;
+import entities.PoisPlant;
 import entities.Zombie;
 import entities.ZombieState;
 
@@ -22,6 +25,11 @@ public class Battlefield {
 	private final double DEFAULT_ZOMBIE_RANGE = 0.05;
 	
 	/**
+	 * Range avant qu'un pois ne touche un Zombie
+	 */
+	private final double DEFAULT_POIS_RANGE = 0.02;
+	
+	/**
 	 * Décrit un cadrillage de 5 x 9 dans lequel des plantes peuvent être situées
 	 */
 	private Plant[][] plantField;
@@ -31,6 +39,11 @@ public class Battlefield {
 	 * Ex : zombieField.get(1) renvoie un ArrayList des zombies présents sur la ligne du haut
 	 */
 	private List<ArrayList<Zombie>> zombieField;
+	
+	/**
+	 * Décrit pour chaque ligne les pois qui s'y trouvent sous le même principe que zombieField
+	 */
+	private List<ArrayList<Pois>> poisField; 
 	
 	/**
 	 * Constructeur de champ de bataille
@@ -45,6 +58,11 @@ public class Battlefield {
 			// On déclare 5 Listes vides pour les 5 lignes
 			zombieField.add(new ArrayList<Zombie>());
 		}
+		
+		this.poisField = new ArrayList<ArrayList<Pois>>();
+			for(int i =0; i<5; i++) {
+				poisField.add(new ArrayList<Pois>());
+			}
 	}
 	
 	/**
@@ -60,6 +78,9 @@ public class Battlefield {
 					entites.add(plant);
 		// On ajoute les zombies
 		zombieField.stream().forEach((ArrayList<Zombie> a)->{
+			entites.addAll(a);
+		});
+		poisField.stream().forEach((ArrayList<Pois> a)->{
 			entites.addAll(a);
 		});
 		return entites;
@@ -120,7 +141,16 @@ public class Battlefield {
 		// On affecte l'objet à une case du tableau.
 		this.plantField[ligne-1][colonne-1] = plant;
 	}
-	
+	/**
+	 * 
+	 * @param ligne sur laquelle  nous voulons faire aparraitre notre pois
+	 * @param colonne sur laquelle  nous voulons faire aparraitre notre pois
+	 * fait apparaitre un pois dans poisField
+	 */
+	public void spawnPois(int ligne, int colonne) {
+		Pois a = new Pois(ligne, colonne); // TODO Ajouter les fonctions pour afficher au bonne endroit les pois
+		this.poisField.get(ligne).add(a);
+;	}
 	/**
 	 * Permet de récupérer la plante la plus à droite d'une ligne
 	 * @param ligne, entier entre 1 et 5 inclus.
@@ -135,7 +165,8 @@ public class Battlefield {
 	}
 	
 	public Entite leftestZombieInALine(int ligne) {
-		return null;
+		ArrayList<Zombie> a = zombieField.get(ligne);
+		return a.get(0);
 	}
 	
 	/**
@@ -161,16 +192,33 @@ public class Battlefield {
 						// Si la plante est à proximité du zombie, alors le zombie l'attaque
 						if (Math.abs(plant.getX() - z.getX()) < DEFAULT_ZOMBIE_RANGE) {
 							z.setState(ZombieState.ATTAQUE);
+							z.attaque(plant);
+							if(plant.getHp()<=0) {
+								plant=null;
+							}
 						}
 					}
 				}
-				
+				this.poisField.get(counter-1).stream().forEach((Pois p)->{
+					if(Math.abs(p.getX() - z.getX()) < DEFAULT_ZOMBIE_RANGE) {
+						p.attaque(z);
+						if(p.getHp()==0) {
+							p=null;
+						}
+					}
+				});
 			});
 		}
 		// Exécution du step de toutes les entités
 		this.getAllEntities().stream().forEach((Entite e)->{
 			e.step();
+			if(e instanceof PoisPlant) {
+				if(((PoisPlant)e).isReadyToAttack())
+					spawnPois(((int) ( e.getX()/0.10-0.015)) ,((int) (e.getY()/ 0.122-0.06)));
+						
+			}
 		});
+		
 	}
 	
 }
