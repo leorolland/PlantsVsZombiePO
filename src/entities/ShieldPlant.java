@@ -11,7 +11,7 @@ public class ShieldPlant extends Plant {
 		"../assets/images/plant_shield/frame_2_delay-0.2s.png",
 		"../assets/images/plant_shield/frame_1_delay-0.2s.png"
 	};
-	public static final int DEFAULT_TIME_BEFORE_REBUYING=5;
+	public static final int DEFAULT_TIME_BEFORE_REBUYING=2000; // in miliseconds
 	
 	public ShieldPlant(int ligne, int colonne) {
 		super(ligne, colonne, DEFAULT_HP, DEFAULT_COST, DEFAULT_TIME_BEFORE_REBUYING, DEFAULT_SPRITES);

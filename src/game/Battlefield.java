@@ -11,6 +11,7 @@ import entities.Pois;
 import entities.PoisPlant;
 import entities.Zombie;
 import entities.ZombieState;
+import ihm.Boutique;
 
 /**
  * Décrit l'ensemble des entités présentes sur un champ de bataille.
@@ -141,15 +142,18 @@ public class Battlefield {
 		// On affecte l'objet à une case du tableau.
 		this.plantField[ligne-1][colonne-1] = plant;
 	}
+	
 	/**
 	 * 
 	 * @param ligne sur laquelle  nous voulons faire aparraitre notre pois
 	 * @param colonne sur laquelle  nous voulons faire aparraitre notre pois
 	 * fait apparaitre un pois dans poisField
 	 */
-	public void spawnPois(int ligne, int colonne) {
-		Pois a = new Pois(ligne, colonne); // TODO Ajouter les fonctions pour afficher au bonne endroit les pois
-		this.poisField.get(ligne).add(a);
+	public void spawnPois(double x, double y) {
+		Pois a = new Pois(x, y);
+		final int ligne = Boutique.determineLineNumber(y);
+		System.out.println(ligne);
+		this.poisField.get(ligne - 1).add(a);
 ;	}
 	/**
 	 * Permet de récupérer la plante la plus à droite d'une ligne
@@ -187,37 +191,66 @@ public class Battlefield {
 			this.zombieField.get(i-1).stream().forEach((Zombie z) -> {
 
 				// On regarde s'il est a proximité d'une plante
+				int indexPlant = 0;
+				// Définit si le zombie aura attaqué une plante ou non durant ce step()
+				boolean hasZombieAttackedAPlant = false;
 				for (Plant plant : plantField[counter-1]) {
 					if (plant != null) {
-						// Si la plante est à proximité du zombie, alors le zombie l'attaque
+						// Si la plante est à proximité du zombie, alors le zombie l'attaque s'il est prêt à attaquer
 						if (Math.abs(plant.getX() - z.getX()) < DEFAULT_ZOMBIE_RANGE) {
-							z.setState(ZombieState.ATTAQUE);
-							z.attaque(plant);
-							if(plant.getHp()<=0) {
-								plant=null;
+							hasZombieAttackedAPlant = true;
+							if (z.isReadyToAttack()) {
+								z.attaque(plant);
+								if(plant.getHp() <= 0) {
+									this.plantField[counter-1][indexPlant] = null;
+								}
 							}
 						}
 					}
+					indexPlant++;
 				}
+				// Si le zombie à attaqué une plante, alors on le met dans l'état d'attaque
+				if (hasZombieAttackedAPlant)
+					z.setState(ZombieState.ATTAQUE);
+				// Sinon il retourne en état de marche
+				else
+					z.setState(ZombieState.MARCHE);
+				ArrayList<Pois> poisASupprimer = new ArrayList<Pois>();
 				this.poisField.get(counter-1).stream().forEach((Pois p)->{
 					if(Math.abs(p.getX() - z.getX()) < DEFAULT_ZOMBIE_RANGE) {
 						p.attaque(z);
-						if(p.getHp()==0) {
-							p=null;
-						}
+						if(p.getHp()==0 || p.getX() > 1)
+							poisASupprimer.add(p);
 					}
 				});
+				this.poisField.get(counter-1).removeAll(poisASupprimer);
 			});
 		}
-		// Exécution du step de toutes les entités
+		
+		// Itération sur toutes les entités du champ de bataille
 		this.getAllEntities().stream().forEach((Entite e)->{
+			// Exécution du step de toutes les entités
 			e.step();
+			// Cas particulier du step du poisplant qui doit être géré ici
 			if(e instanceof PoisPlant) {
-				if(((PoisPlant)e).isReadyToAttack())
-					spawnPois(((int) ( e.getX()/0.10-0.015)) ,((int) (e.getY()/ 0.122-0.06)));
-						
+				PoisPlant pp = ((PoisPlant)e);
+				if(pp.isReadyToAttack()) {
+					// spawnPois(((int) ( e.getX()/0.10-0.015)) ,((int) (e.getY()/ 0.122-0.06)));
+					this.spawnPois(pp.getX()+0.03, pp.getY());					
+					pp.setReadyToAttack(false);
+				}
+			}
+			// On supprime les zombies morts de chaque ligne
+			if (e instanceof Zombie) {
+				Zombie zombie = ((Zombie)e);
+				if (zombie.getHp() <= 0) {
+					this.zombieField.forEach((ArrayList<Zombie> az)->{
+						az.remove(zombie);
+					}); 
+				}
 			}
 		});
+
 		
 	}
 	

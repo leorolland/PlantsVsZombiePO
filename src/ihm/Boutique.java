@@ -86,6 +86,21 @@ public class Boutique {
         else
             return line;
     }
+    
+    
+    /**
+     * Renvoie la coordonnée X de la case en fonction d'une coordonnée verticale brute
+     * @param mousePosition La coordonnée brute verticale
+     * @return le numéro de la ligne [1 - 5]
+     */
+    public static int determineLineNumber(double mouseYPosition) {
+        mouseYPosition -= 0.1;
+        int line = 1 + (int) (mouseYPosition / 0.122);
+        if (line > 5)
+            return 5;
+        else
+            return line;
+    }
 
     public void processKeyboardInput(char key) {
         switch (key) {

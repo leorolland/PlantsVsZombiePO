@@ -11,7 +11,7 @@ public class Sunflower extends Plant {
 			"../assets/images/sunflower/frame_2_delay-0.2s.png",
 			"../assets/images/sunflower/frame_1_delay-0.2s.png"
 		};
-	public static final int DEFAULT_TIME_BEFORE_REBUYING=5;
+	public static final int DEFAULT_TIME_BEFORE_REBUYING = 2000; // in miliseconds
 	public Sunflower(int ligne, int colonne) {
 		super(ligne, colonne, Sunflower.DEFAULT_HP, Sunflower.DEFAULT_COST,Sunflower.DEFAULT_TIME_BEFORE_REBUYING, Sunflower.DEFAULT_SPRITES);
 	}

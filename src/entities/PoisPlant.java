@@ -22,7 +22,7 @@ public class PoisPlant extends Plant {
 		"../assets/images/basic_plant/frame_11_delay-0.2s.png",
 		"../assets/images/basic_plant/frame_12_delay-0.2s.png"
 	};
-	public static final int DEFAULT_TIME_BEFORE_REBUYING=5;
+	public static final int DEFAULT_TIME_BEFORE_REBUYING=2000;  // in miliseconds
 	
 	public PoisPlant(int ligne, int colonne) {
 		super(ligne, colonne, DEFAULT_HP, DEFAULT_COST, DEFAULT_TIME_BEFORE_REBUYING, DEFAULT_SPRITES);
