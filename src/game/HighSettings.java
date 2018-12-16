@@ -1,9 +1,9 @@
 package game;
 
-public class MediumSettings extends Settings {
+public class HighSettings extends Settings {
 	 private final int SUN_APPARITION_FREQUENCY = 0;
 	    private final int DEFAULT_SUNS = 50;
-	    private final int DEFAULT_BASIC_ZOMBIE_APPARITION_FREQUENCY = 100;
+	    private final int DEFAULT_BASIC_ZOMBIE_APPARITION_FREQUENCY = 80;
 	    private final int DEFAULT_TANK_ZOMBIE_APPARITION_FREQUENCY = 450;
 	    private final int DEFAULT_ZOMBIE_APPARITION_FREQUENCY = 180;
 	    private final int DEFAULT_SUN_DISPARITION_TIME = 8000;
@@ -51,5 +51,4 @@ public class MediumSettings extends Settings {
 	    public int getDefaultSunDisparitionTime() {
 	    	return DEFAULT_SUN_DISPARITION_TIME;
 	    }
-	}
-
+}
