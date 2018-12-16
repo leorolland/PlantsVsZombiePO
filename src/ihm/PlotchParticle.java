@@ -1,7 +1,7 @@
 package ihm;
 
 /**
- * Particule d'explosion
+ * Particule d'explosion d'un pois au contact d'un zombie
  */
 public class PlotchParticle extends Particle {
 	

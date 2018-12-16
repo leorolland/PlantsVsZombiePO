@@ -6,6 +6,9 @@ import game.StdDraw;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Définit une plante (doit être implémentée par une plante plus précise, avec des sprites définis etc)
+ */
 public abstract class Plant extends Entite {
 	
 
@@ -69,6 +72,15 @@ public abstract class Plant extends Entite {
 		this.isReadyToAttack = isReadyToAttack;
 	}
 
+	/**
+	 * Instancie une plante
+	 * @param ligne (1 - 5) la ligne de la plante
+	 * @param colonne (1 - 9) la colonne de la plante
+	 * @param hp points de vie
+	 * @param cost cout
+	 * @param timeBeforeRebuying temps avant achat (en milisecondes)
+	 * @param sprites sprites d'animation
+	 */
 	public Plant(int ligne, int colonne, int hp, int cost, int timeBeforeRebuying, String[] sprites) {
 		super(0.015 + 0.10 * colonne, 0.06 + 0.122 * ligne);
 		this.hp = hp;

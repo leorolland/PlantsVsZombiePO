@@ -1,5 +1,10 @@
 package game;
 
+/**
+ * Gestion de la difficulté moyenne
+ * @author black
+ *
+ */
 public class MediumSettings extends Settings {
 	 private final int SUN_APPARITION_FREQUENCY = 2000;
 	    private final int DEFAULT_SUNS = 50;

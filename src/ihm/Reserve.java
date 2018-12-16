@@ -1,5 +1,9 @@
 package ihm;
 
+/**
+ * Gère la réserve du joueur
+ *
+ */
 public class Reserve extends Text {
 	
 	/**

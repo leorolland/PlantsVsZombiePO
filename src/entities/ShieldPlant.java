@@ -1,5 +1,10 @@
 package entities;
 
+/**
+ * Plante bouclier, équivalent à la noix
+ * @author black
+ *
+ */
 public class ShieldPlant extends Plant {
 
 	// Default Sunflower properties

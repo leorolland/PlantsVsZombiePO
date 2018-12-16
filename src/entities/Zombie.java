@@ -7,6 +7,11 @@ import game.Entite;
 import game.StdDraw;
 import game.Timer;
 
+/**
+ * Class commune à tous les zombies du jeu
+ * @author black
+ *
+ */
 public abstract class Zombie extends Entite {
 	
 	public static final int DEFAULT_ATQ_TICK_FREQUENCY = 1000;// in miliseconds;

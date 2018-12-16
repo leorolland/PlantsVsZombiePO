@@ -1,5 +1,10 @@
 package entities;
 
+/**
+ * Les soleils (cerveaux dans le jeu) sont de bonus cliquables, ils implément donc bonus
+ * @author black
+ *
+ */
 public class Sun extends Bonus {
 
     // Default BasicZombie properties

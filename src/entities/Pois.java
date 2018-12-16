@@ -3,6 +3,11 @@ package entities;
 import game.Entite;
 import game.StdDraw;
 
+/**
+ * Le pois est le projectile tiré par les plantes. Il peut être instancié tel quel.
+ * @author black
+ *
+ */
 public class Pois extends Entite {
 	private double hp=1;
 	private double speed = -4.0;

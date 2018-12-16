@@ -138,9 +138,7 @@ public class GameWorld {
 		if (tickCount % this.difficulty.getSunApparitionFrequency(battlefield.getCountSunflowers()) == 0) {
 			entites.add(new Sun(this.difficulty.getDefaultSunDisparitionTime()));
 		}
-		
-		System.out.println(this.battlefield.getCountOfZombieSpawned());
-		
+				
 		/**
 		 * DIFFICULTÉ 1
 		 */
@@ -202,6 +200,10 @@ public class GameWorld {
 				this.battlefield.spawnBasicZombie(ZombieKamikaze.class, BucketProtection.class);
 			}
 		}
+		
+		// Fin du jeu
+		if(this.battlefield.getCountOfZombieSpawned()>=120 && this.battlefield.getAllZombies().size()==0)
+			gameWon = true;
 		
 		// Gestion de la fin de la partie
 		this.battlefield.getAllZombies().forEach( z -> {

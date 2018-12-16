@@ -7,6 +7,12 @@ import java.util.List;
 import game.StdDraw;
 import game.Timer;
 
+/**
+ * Les bonus sont des entités qui quand ils sont cliqués disparaissent pour attribuer un bonus de soleils au joueur
+ * cette classe doit etre implémentée notamment par les soleils qui sont un cas particulier de bonus
+ * @author black
+ *
+ */
 public abstract class Bonus extends Entite {
 
     /**
