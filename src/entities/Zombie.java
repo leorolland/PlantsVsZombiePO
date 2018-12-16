@@ -62,6 +62,13 @@ public abstract class Zombie extends Entite {
 	 */
 	private Timer readyToAttackTimer;
 	
+	/**
+	 * L'équippement posé sur la tête du zombie lui assurant une protection.
+	 * Vaut null si aucune protection n'est présente
+	 * une instance de Protection sinon.
+	 */
+	private Protection protection;
+	
 	public boolean isReadyToAttack() {
 		return isReadyToAttack;
 	}
@@ -70,10 +77,23 @@ public abstract class Zombie extends Entite {
 		return hp;
 	}
 
-	public void setHp(int hp) {
-		this.hp = hp;
+	/**
+	 * Inflige des dégats au zombie
+	 * @param dmg le nombre de hp à infliger
+	 */
+	public void hit(int dmg) {
+		// Si le zombie a une protection, on attaque la protection
+		if (this.protection != null) {
+			this.protection.setHp(this.protection.getHp() - dmg);
+			// Si la protection est détruite sur le coup, on la supprime
+			if (this.protection.getHp() <= 0)
+				this.protection = null;
+		} 
+		// Le nombie n'a pas de protection, on l'attaque directement
+		else 
+			this.hp -= dmg;
 	}
-
+	
 	public double getSpeed() {
 		return speed;
 	}
@@ -109,6 +129,7 @@ public abstract class Zombie extends Entite {
 		this.attackingSprite = Arrays.asList(attackSprite);
 		this.isReadyToAttack = true;
 		this.readyToAttackTimer = new Timer(0);
+		this.protection = null;
 	}
 	@Override
 	public void step() {
@@ -145,6 +166,10 @@ public abstract class Zombie extends Entite {
 			else
 				this.spriteAnimationFrame=0;
 		}
+		
+		// Si le zombie possède une protection, on lui demande de se dessiner
+		if (this.protection != null)
+			this.protection.dessine();
 	}
 
 	public ZombieState getState() {
@@ -168,6 +193,28 @@ public abstract class Zombie extends Entite {
 		this.isReadyToAttack = false;
 		a.setHp(a.getHp()-this.atq);
 		this.readyToAttackTimer = new Timer(DEFAULT_ATQ_TICK_FREQUENCY);
+	}
+	
+	/**
+	 * Équipe le zombie d'une protection fournie en paramètre
+	 * @param protectionClass Une protection (classe héritant de la classe Protection)
+	 */
+	public void setupProtection(Class<?> protectionClass) {
+		try {
+			// Instanciation de la protection (on passe le zombie en paramêtre)
+			this.protection = (Protection) protectionClass.getConstructors()[0].newInstance(this);
+        } catch (IllegalArgumentException e) {
+        	System.out.println("Constructeur mal renseigné");
+        	return;
+		} catch (ClassCastException cce) {
+        	// Si la classe fournie n'est pas castable en Protection c'est que ce n'est pas une classe qui hérite de Protection
+        	System.out.println("La classe que vous avez fournie n'hérite pas de la classe Protection");
+        	return;
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return;
+        }
+		
 	}
 	
 }

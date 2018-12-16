@@ -38,7 +38,7 @@ public class Pois extends Entite {
 		this.atq = atq;
 	}
 	public void attaque(Zombie a) {
-		a.setHp(a.getHp()-this.atq);
+		a.hit(this.atq);
 		this.setHp(0);
 	}
 	public void dessine() {

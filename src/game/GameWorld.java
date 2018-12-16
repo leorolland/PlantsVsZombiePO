@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import entities.BasicZombie;
+import entities.BucketProtection;
+import entities.ConeProtection;
 import entities.Sunflower;
 import entities.Sun;
 import ihm.Reserve;
@@ -16,7 +18,7 @@ public class GameWorld {
 	// Configuration des constantes de partie
 	Settings difficulty;
 
-	// l'ensemble des entites, pour gerer (notamment) l'affichage
+	// l'ensemble des entites hors zombie, projectiles et plantes
 	private static List<Entite> entites;
 	
 	// l'ensemble des textes affichés à l'écran
@@ -137,7 +139,7 @@ public class GameWorld {
 		}
 		// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
-			this.battlefield.spawnBasicZombie(BasicZombie.class);
+			this.battlefield.spawnBasicZombie(BasicZombie.class, BucketProtection.class);
 		}
 	}
 
