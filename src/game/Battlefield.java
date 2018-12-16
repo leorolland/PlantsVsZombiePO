@@ -10,7 +10,7 @@ import entities.MitraillettePlant;
 import entities.Plant;
 import entities.Pois;
 import entities.PoisPlant;
-import entities.Protection;
+import entities.Sunflower;
 import entities.Zombie;
 import entities.ZombieState;
 import ihm.Boutique;
@@ -50,7 +50,10 @@ public class Battlefield {
 	 * Décrit pour chaque ligne les pois qui s'y trouvent sous le même principe que zombieField
 	 */
 	private List<ArrayList<Pois>> poisField; 
-	
+	/**
+	 * Compte le nombre de zombie qui ont spawned depuis le début.
+	 */
+	private int countOfZombieSpawned;
 	/**
 	 * Liste des particules affichées sur le champ de bataille
 	 */
@@ -76,6 +79,8 @@ public class Battlefield {
 			}
 			
 		this.particleList = new ArrayList<Particle>();
+		
+		this.countOfZombieSpawned = 0;
 	}
 	
 	/**
@@ -99,7 +104,23 @@ public class Battlefield {
 		entites.addAll(particleList);
 		return entites;
 	}
+	/**
+	 * Renvoie tout les zombie mémoriser dans zombieField
+	 */
+	public ArrayList<Entite> getAllZombies() {
+		ArrayList<Entite> Zombie = new ArrayList<Entite>();
+		this.zombieField.stream().forEach((ArrayList<Zombie> a)->{
+			Zombie.addAll(a);
+		});
+		return Zombie;
+	}
 	
+	
+	public int getCountOfZombieSpawned() {
+		return countOfZombieSpawned;
+	}
+
+
 	/**
 	 * Fait apparaître un zombie de la classe donnée sur une ligne aléatoire
 	 * @param zombieClass Une classe qui hérite de Zombie.
@@ -115,6 +136,9 @@ public class Battlefield {
 	 * @param protectionClass Une classe qui hérite de Protection.
 	 */
 	public void spawnBasicZombie(Class<?> zombieClass, Class<?> protectionClass) {
+		// Incrément du nombre de zombies apparus
+		countOfZombieSpawned++;
+		
 		// On génère un nombre entre 1 et 5 pour la ligne
 		int row = ThreadLocalRandom.current().nextInt(1, 5 + 1);
 		
@@ -305,6 +329,17 @@ public class Battlefield {
 		});
 
 		
+	}
+
+	public int getCountSunflowers() {
+		int count = 0;
+		for (Plant[] pr : this.plantField) {
+			for (Plant p : pr) {
+				if (p instanceof Sunflower)
+					count++;
+			}
+		}
+		return count;
 	}
 	
 }

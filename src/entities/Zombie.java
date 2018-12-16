@@ -139,7 +139,7 @@ public abstract class Zombie extends Entite {
 	public void step() {
 		// Si le zombie est en état de marche, on le fait avancer proportionellement à sa vitesse.
 		if (this.state == ZombieState.MARCHE)
-			this.position.setX(this.getX() - 0.0010 * this.speed);
+			this.position.setX(this.getX() - 0.0006 * this.speed);
 		// Si le timer d'attente entre chaque attaque est écoulé on réinitialise l'état à true
 		if (this.readyToAttackTimer.hasFinished())
 			this.isReadyToAttack = true;

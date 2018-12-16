@@ -4,7 +4,7 @@ import game.Position;
 import game.StdDraw;
 import java.awt.Font;
 
-public abstract class Text {
+public class Text {
 
 	private String content;
 	protected Position position;
