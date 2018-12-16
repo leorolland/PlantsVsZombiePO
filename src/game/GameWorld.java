@@ -43,6 +43,7 @@ public class GameWorld {
 	// Boutique du jeu
 	private Boutique boutique;
 	
+	
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 
@@ -135,11 +136,33 @@ public class GameWorld {
 		if (tickCount % this.difficulty.getSunApparitionFrequency(countOfSunflowers) == 0) {
 			entites.add(new Sun(this.difficulty.getDefaultSunDisparitionTime()));
 		}
-		// Apparition des zombies 
+		//gestion du niveau de difficulté
+		if(this.battlefield.getCountOfZombieSpawned() <=20) {
+			////TODO Afficher niveau 1
+			// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
 			this.battlefield.spawnBasicZombie(BasicZombie.class);
 		}
-	}
+		if(this.battlefield.getCountOfZombieSpawned()==5) {
+			this.battlefield.spawnBasicZombie(BasicZombie.class/*, Future Classe*/);
+		}
+		}
+		if(this.battlefield.getCountOfZombieSpawned()>20 && this.battlefield.getAllZombies.size()==0 && this.battlefield.getCountOfZombieSpawned()<70 ) {
+			//this.difficulty=MediumSetting();//
+			//TODO Afficher niveau 2
+			if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class);
+			}
+			if(this.battlefield.getCountOfZombieSpawned()%5==0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class/*, Future Classe*/);
+			}
+			if(this.battlefield.getCountOfZombieSpawned()%9==0) {
+				this.battlefield.spawnBasicZombie(BazicZombie.class /*,Future Classe*/);
+			}
+		}
+		
+		
+	}	
 
 	// dessine les entites du jeu
 	public void dessine() {

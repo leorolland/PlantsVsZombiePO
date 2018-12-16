@@ -45,7 +45,10 @@ public class Battlefield {
 	 * Décrit pour chaque ligne les pois qui s'y trouvent sous le même principe que zombieField
 	 */
 	private List<ArrayList<Pois>> poisField; 
-	
+	/**
+	 * Compte le nombre de zombie qui ont spawned depuis le début.
+	 */
+	private int  countOfZombieSpawned;
 	/**
 	 * Constructeur de champ de bataille
 	 */
@@ -86,8 +89,25 @@ public class Battlefield {
 		});
 		return entites;
 	}
+	/**
+	 * Renvoie tout les zombie mémoriser dans zombieField
+	 */
+	public ArrayList<Entite> getAllZombies {
+		ArrayList<Entite> Zombie = new ArrayList<Entite>();
+		this.zombieField.stream().forEach((ArrayList<Zombie> a)->{
+			Zombie.addAll(a);
+		});
+		return Zombie;
+	}
 	
+	
+	public int getCountOfZombieSpawned() {
+		return countOfZombieSpawned;
+	}
+
+
 	public void spawnBasicZombie(Class<?> zombieClass) {
+		countOfZombieSpawned++;
 		// On génère un nombre entre 1 et 5 pour la ligne
 		int row = ThreadLocalRandom.current().nextInt(1, 5 + 1);
 		
