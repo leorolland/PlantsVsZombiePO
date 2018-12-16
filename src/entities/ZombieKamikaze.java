@@ -18,7 +18,7 @@ public class ZombieKamikaze extends Zombie {
 	public void attaque(Plant a) {
 		if(this.getState()==ZombieState.ATTAQUE) {
 			a.setHp(a.getHp()-200);
-			this.setHp(0);
+			this.hit(999999);
 		}
 	}
 }

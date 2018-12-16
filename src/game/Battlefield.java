@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import entities.Plant;
 import entities.Pois;
 import entities.PoisPlant;
+import entities.Protection;
 import entities.Zombie;
 import entities.ZombieState;
 import ihm.Boutique;
@@ -87,7 +88,21 @@ public class Battlefield {
 		return entites;
 	}
 	
+	/**
+	 * Fait apparaître un zombie de la classe donnée sur une ligne aléatoire
+	 * @param zombieClass Une classe qui hérite de Zombie.
+	 */
 	public void spawnBasicZombie(Class<?> zombieClass) {
+		spawnBasicZombie(zombieClass, null);
+	}
+	
+	/**
+	 * Fait apparaître un zombie de la classe donnée et avec la protection donnée
+	 * sur une ligne aléatoire
+	 * @param zombieClass Une classe qui hérite de Zombie.
+	 * @param protectionClass Une classe qui hérite de Protection.
+	 */
+	public void spawnBasicZombie(Class<?> zombieClass, Class<?> protectionClass) {
 		// On génère un nombre entre 1 et 5 pour la ligne
 		int row = ThreadLocalRandom.current().nextInt(1, 5 + 1);
 		
@@ -108,8 +123,13 @@ public class Battlefield {
         	return;
         }
 		
+		// Si la classe de protection fournie n'est pas nulle, on demande au zombie de s'ajouter une protection
+		if (protectionClass != null)
+			zombie.setupProtection(protectionClass);
+			
 		// On redéfinit les coordonnées du zombie aux coordonnées voulues;
 		this.zombieField.get(row-1).add(zombie);
+			
 	}
 	
 	/**

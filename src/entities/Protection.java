@@ -36,7 +36,7 @@ public abstract class Protection extends Entite {
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
-
+	
 	/**
 	 * Valeur de HP à partir de laquelle la texture devient cette la plus abimée
 	 */
@@ -69,7 +69,7 @@ public abstract class Protection extends Entite {
 	@Override
 	public void dessine() {
 		String texture = hp > low_hp_value ? texture_full : texture_low;
-		StdDraw.picture(this.attached_zombie.getX(), this.attached_zombie.getY() + 0.1, texture);
+		StdDraw.picture(this.attached_zombie.getX(), this.attached_zombie.getY() + 0.07, texture, 0.07, 0.07);
 	}
 
 	@Override
