@@ -2,7 +2,7 @@ package entities;
 
 public class ZombieKamikaze extends Zombie {
 	public static final int DEFAULT_HP = 200;
-	public static final double DEFAULT_SPEED = 0.50;
+	public static final double DEFAULT_SPEED = 1;
 	public static final int DEFAULT_ATQ = 0;
 	private static final String[] DEFAULT_SPRITES= {};
 	

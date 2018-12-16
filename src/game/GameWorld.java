@@ -139,16 +139,29 @@ public class GameWorld {
 		if (tickCount % this.difficulty.getSunApparitionFrequency(countOfSunflowers) == 0) {
 			entites.add(new Sun(this.difficulty.getDefaultSunDisparitionTime()));
 		}
+		Timer m = new Timer(5000);
+		Text a =new Text("Niveau 1" , 0.500, 0.500, 16 );
+		texts.add(a);	
+		if(m.hasFinished()) {
+			texts.remove(a);
+		}
 		//gestion du niveau de difficult�
-		if(this.battlefield.getCountOfZombieSpawned() <=20 && tickCount>400) {
-			////TODO Afficher niveau 1
+		if(this.battlefield.getCountOfZombieSpawned() <=20 && tickCount>700) {
 			// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
 			this.battlefield.spawnBasicZombie(BasicZombie.class);
 		}
 		if(this.battlefield.getCountOfZombieSpawned()%5==1) {
-			this.battlefield.spawnBasicZombie(BasicZombie.class/*, Future Classe*/);
+			this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class );
 		}
+		}
+		
+		//Timer d'affichage du Texts correpondant au niveau
+		Timer k = new Timer(5000);
+		Text b =new Text("Niveau 2" , 0.500, 0.500, 16 );
+		texts.add(b);	
+		if(k.hasFinished()) {
+			texts.remove(b);
 		}
 		if(this.battlefield.getCountOfZombieSpawned()>20 && this.battlefield.getAllZombies().size()==0 && this.battlefield.getCountOfZombieSpawned()<70 ) {
 			this.difficulty= new MediumSettings();
@@ -165,9 +178,17 @@ public class GameWorld {
 			if(this.battlefield.getCountOfZombieSpawned()%15==0) {
 				//this.battlefield.spawnZombieKamikaze();
 			}
+		}
+		//Timer d'affichage du Texts correpondant au niveau
+		Timer j = new Timer(5000);
+		Text c =new Text("Niveau 3" , 0.50, 0.50, 16 );
+		texts.add(c);	
+		if(j.hasFinished()) {
+			texts.remove(c);
+		}
 			if(this.battlefield.getCountOfZombieSpawned()>=70 && this.battlefield.getAllZombies().size()==0) {
 				this.difficulty= new HighSettings();
-				//TODO Affichage Niveau 3 
+				 
 				if(this.battlefield.getCountOfZombieSpawned()%5==0) {
 					this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
 				}
@@ -178,7 +199,8 @@ public class GameWorld {
 					//this.battlefield.spawnZombieKamikaze();
 				}
 			}
-		}
+		
+		
 		this.battlefield.getAllZombies().forEach( z -> {
 			if(z.getX()<0) {
 				gameLost = true;
