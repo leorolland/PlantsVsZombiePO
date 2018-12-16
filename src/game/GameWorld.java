@@ -8,6 +8,7 @@ import entities.BasicZombie;
 import entities.BucketProtection;
 import entities.ConeProtection;
 import entities.Sunflower;
+import entities.ZombieKamikaze;
 import entities.Sun;
 import ihm.Reserve;
 import ihm.Text;
@@ -139,7 +140,7 @@ public class GameWorld {
 		}
 		// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
-			this.battlefield.spawnBasicZombie(BasicZombie.class, BucketProtection.class);
+			this.battlefield.spawnBasicZombie(BasicZombie.class);
 		}
 	}
 

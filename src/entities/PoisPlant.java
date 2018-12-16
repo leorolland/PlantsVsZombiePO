@@ -6,7 +6,7 @@ public class PoisPlant extends Plant {
 
 	// Default Sunflower properties
 	public static final int DEFAULT_HP = 300;
-	public static final int DEFAULT_COST = 50;
+	public static final int DEFAULT_COST = 100;
 	private static final String[] DEFAULT_SPRITES = {
 		"../assets/images/basic_plant/frame_00_delay-0.1s.png",
 		"../assets/images/basic_plant/frame_01_delay-0.1s.png",

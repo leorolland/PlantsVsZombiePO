@@ -4,6 +4,7 @@ import game.Battlefield;
 import game.StdDraw;
 import game.Timer;
 import ihm.Reserve;
+import entities.MitraillettePlant;
 import entities.PoisPlant;
 import entities.ShieldPlant;
 import entities.Sunflower;
@@ -41,6 +42,11 @@ public class Boutique {
      * Timer de réachat d'un shieldPlant
      */
     private Timer shieldPlantTimer;
+    
+    /**
+     * Timer de réachat d'une mitraillettePlant
+     */
+    private Timer mitraillettePlantTimer;
 
     /**
      * Instancie une boutique
@@ -53,6 +59,7 @@ public class Boutique {
         this.sunflowerTimer = new Timer(0);
         this.poisPlantTimer = new Timer(0);
         this.shieldPlantTimer = new Timer(0);
+        this.mitraillettePlantTimer = new Timer(0);
     }
 
     /**
@@ -132,6 +139,16 @@ public class Boutique {
                     this.battlefield.spawnPlant(ShieldPlant.class, determineLineNumber(), determineColumnNumber());
                     // Remise à zéro du timer
                     this.shieldPlantTimer = new Timer(ShieldPlant.DEFAULT_TIME_BEFORE_REBUYING);
+                }
+                break;
+            // Achat d'un MitraillettePlant
+            case 'm':
+                // Si le temps de réachat est écoulé et que le paiement de la plante est un succès
+                if (this.mitraillettePlantTimer.hasFinished() && this.reserve.pay(MitraillettePlant.DEFAULT_COST)) {
+                    // On fait apparaître la plante
+                    this.battlefield.spawnPlant(MitraillettePlant.class, determineLineNumber(), determineColumnNumber());
+                    // Remise à zéro du timer
+                    this.mitraillettePlantTimer = new Timer(MitraillettePlant.DEFAULT_TIME_BEFORE_REBUYING);
                 }
                 break;
             default:

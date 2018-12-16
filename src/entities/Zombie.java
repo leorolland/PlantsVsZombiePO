@@ -77,6 +77,10 @@ public abstract class Zombie extends Entite {
 		return hp;
 	}
 
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	
 	/**
 	 * Inflige des dégats au zombie
 	 * @param dmg le nombre de hp à infliger
