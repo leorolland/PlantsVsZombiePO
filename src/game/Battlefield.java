@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import entities.MitraillettePlant;
 import entities.Plant;
 import entities.Pois;
 import entities.PoisPlant;
@@ -13,6 +14,9 @@ import entities.Protection;
 import entities.Zombie;
 import entities.ZombieState;
 import ihm.Boutique;
+import ihm.ExplosionParticle;
+import ihm.Particle;
+import ihm.PlotchParticle;
 
 /**
  * Décrit l'ensemble des entités présentes sur un champ de bataille.
@@ -48,6 +52,11 @@ public class Battlefield {
 	private List<ArrayList<Pois>> poisField; 
 	
 	/**
+	 * Liste des particules affichées sur le champ de bataille
+	 */
+	private List<Particle> particleList;
+	
+	/**
 	 * Constructeur de champ de bataille
 	 */
 	public Battlefield() {
@@ -65,6 +74,8 @@ public class Battlefield {
 			for(int i =0; i<5; i++) {
 				poisField.add(new ArrayList<Pois>());
 			}
+			
+		this.particleList = new ArrayList<Particle>();
 	}
 	
 	/**
@@ -85,6 +96,7 @@ public class Battlefield {
 		poisField.stream().forEach((ArrayList<Pois> a)->{
 			entites.addAll(a);
 		});
+		entites.addAll(particleList);
 		return entites;
 	}
 	
@@ -239,6 +251,7 @@ public class Battlefield {
 				this.poisField.get(counter-1).stream().forEach((Pois p)->{
 					if(Math.abs(p.getX() - z.getX()) < DEFAULT_ZOMBIE_RANGE) {
 						p.attaque(z);
+						this.particleList.add(new PlotchParticle(z.getX()-0.02, z.getY()-0.05));
 						if(p.getHp()==0 || p.getX() > 1)
 							poisASupprimer.add(p);
 					}
@@ -260,15 +273,35 @@ public class Battlefield {
 					pp.setReadyToAttack(false);
 				}
 			}
+			if(e instanceof MitraillettePlant) {
+				MitraillettePlant pp = ((MitraillettePlant)e);
+				if(pp.isReadyToAttack()) {
+					// spawnPois(((int) ( e.getX()/0.10-0.015)) ,((int) (e.getY()/ 0.122-0.06)));
+					this.spawnPois(pp.getX()+0.03, pp.getY());					
+					pp.setReadyToAttack(false);
+				}
+			}
 			// On supprime les zombies morts de chaque ligne
 			if (e instanceof Zombie) {
 				Zombie zombie = ((Zombie)e);
 				if (zombie.getHp() <= 0) {
+					this.particleList.add(new ExplosionParticle(zombie.getX(), zombie.getY()));
 					this.zombieField.forEach((ArrayList<Zombie> az)->{
 						az.remove(zombie);
 					}); 
 				}
 			}
+		});
+		
+		
+		// Suppression des particules qui ont terminé leur affichage
+		List<Particle> particleToRemove = new ArrayList<Particle>();
+		this.particleList.stream().forEachOrdered((Particle p) -> {
+			if (p.hasFinished())
+				particleToRemove.add(p);
+		});
+		particleToRemove.forEach(p->{
+			this.particleList.remove(p);
 		});
 
 		
