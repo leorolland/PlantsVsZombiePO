@@ -19,7 +19,7 @@ public class GameWorld {
 	// Configuration des constantes de partie
 	Settings difficulty;
 
-	// l'ensemble des entites hors zombie, projectiles et plantes
+	// l'ensemble des entites, pour gerer (notamment) l'affichage
 	private static List<Entite> entites;
 	
 	// l'ensemble des textes affichés à l'écran
@@ -46,6 +46,7 @@ public class GameWorld {
 	// Boutique du jeu
 	private Boutique boutique;
 	
+	
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
 
@@ -61,7 +62,7 @@ public class GameWorld {
 
 		tickCount = 0;
 		
-		reserve = new Reserve(this.difficulty.getDefaultSuns());
+		reserve = new Reserve( 5000 /*this.difficulty.getDefaultSuns()*/);
 		texts.add(reserve);	
 
 		// On instancie la boutique en lui passant le champ de bataille et la réserve en paramètre
@@ -131,6 +132,7 @@ public class GameWorld {
 					reserve.setAmount(reserve.getAmount()+25);
 				}
 			}
+			
 		}
 		// Suppression des entités mémorisées
 		entitiesToRemove.stream().forEach((e)->entites.remove(e));
@@ -138,11 +140,77 @@ public class GameWorld {
 		if (tickCount % this.difficulty.getSunApparitionFrequency(countOfSunflowers) == 0) {
 			entites.add(new Sun(this.difficulty.getDefaultSunDisparitionTime()));
 		}
-		// Apparition des zombies 
+		Timer m = new Timer(5000);
+		Text a =new Text("Niveau 1" , 0.500, 0.500, 16 );
+		texts.add(a);	
+		if(m.hasFinished()) {
+			texts.remove(a);
+		}
+		//gestion du niveau de difficult�
+		if(this.battlefield.getCountOfZombieSpawned() <=20 && tickCount>700) {
+			// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
 			this.battlefield.spawnBasicZombie(BasicZombie.class);
 		}
-	}
+		if(this.battlefield.getCountOfZombieSpawned()%5==1) {
+			this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class );
+		}
+		}
+		
+		//Timer d'affichage du Texts correpondant au niveau
+		Timer k = new Timer(5000);
+		Text b =new Text("Niveau 2" , 0.500, 0.500, 16 );
+		texts.add(b);	
+		if(k.hasFinished()) {
+			texts.remove(b);
+		}
+		if(this.battlefield.getCountOfZombieSpawned()>20 && this.battlefield.getAllZombies().size()==0 && this.battlefield.getCountOfZombieSpawned()<70 ) {
+			this.difficulty= new MediumSettings();
+			//TODO Afficher niveau 2
+			if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class);
+			}
+			if(this.battlefield.getCountOfZombieSpawned()%5==0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
+			}
+			if(this.battlefield.getCountOfZombieSpawned()%9==0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class , BucketProtection.class);
+			}
+			if(this.battlefield.getCountOfZombieSpawned()%15==0) {
+				//this.battlefield.spawnZombieKamikaze();
+			}
+		}
+		//Timer d'affichage du Texts correpondant au niveau
+		Timer j = new Timer(5000);
+		Text c =new Text("Niveau 3" , 0.50, 0.50, 16 );
+		texts.add(c);	
+		if(j.hasFinished()) {
+			texts.remove(c);
+		}
+			if(this.battlefield.getCountOfZombieSpawned()>=70 && this.battlefield.getAllZombies().size()==0) {
+				this.difficulty= new HighSettings();
+				 
+				if(this.battlefield.getCountOfZombieSpawned()%5==0) {
+					this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
+				}
+				if(this.battlefield.getCountOfZombieSpawned()%9==0) {
+					this.battlefield.spawnBasicZombie(BasicZombie.class, BucketProtection.class);
+				}
+				if(this.battlefield.getCountOfZombieSpawned()%15==0) {
+					//this.battlefield.spawnZombieKamikaze();
+				}
+			}
+		
+		
+		this.battlefield.getAllZombies().forEach( z -> {
+			if(z.getX()<0) {
+				gameLost = true;
+				gameWon = false;
+			}
+				
+		});
+		
+	}	
 
 	// dessine les entites du jeu
 	public void dessine() {
