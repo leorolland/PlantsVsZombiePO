@@ -46,6 +46,16 @@ public class GameWorld {
 	// Boutique du jeu
 	private Boutique boutique;
 	
+	/**
+	 * Niveau de difficulté actuel de la partie
+	 */
+	int actualLevel;
+	
+	/**
+	 * Texte d'affichage du niveau en cours
+	 */
+	private Text texteNiv;
+	
 	
 	// constructeur, il faut initialiser notre monde virtuel
 	public GameWorld() {
@@ -60,33 +70,21 @@ public class GameWorld {
 		gameWon=false;
 		gameLost=false;
 
+		// Initialisation du compteur de step() (ticks)
 		tickCount = 0;
 		
-		reserve = new Reserve( 5000 /*this.difficulty.getDefaultSuns()*/);
+		// Texte d'affichage du niveau en cours
+		texteNiv = new Text("Les zombies approchent ...", 0.5, 0.1, 24);
+		
+		// Par défaut on n'a terminé aucun niveau
+		actualLevel = 0;
+		
+		reserve = new Reserve(this.difficulty.getDefaultSuns());
 		texts.add(reserve);	
 
 		// On instancie la boutique en lui passant le champ de bataille et la réserve en paramètre
 		this.boutique = new Boutique(battlefield, reserve);
 
-		// on rajoute une entite de demonstration
-		//entites.add(new TrucQuiBouge(0, 0.5));
-		battlefield.spawnPlant(Sunflower.class, 1, 1);
-		countOfSunflowers++;
-
-		battlefield.spawnPlant(Sunflower.class, 2, 2);
-		countOfSunflowers++;
-
-		battlefield.spawnPlant(Sunflower.class, 3, 3);
-		countOfSunflowers++;
-		
-		battlefield.spawnPlant(Sunflower.class, 4, 4);
-		countOfSunflowers++;
-		
-		battlefield.spawnPlant(Sunflower.class, 5, 5);
-		countOfSunflowers++;
-		
-		battlefield.spawnPlant(Sunflower.class, 5, 9);
-		countOfSunflowers++;
 	}
 
 	/**
@@ -137,71 +135,75 @@ public class GameWorld {
 		// Suppression des entités mémorisées
 		entitiesToRemove.stream().forEach((e)->entites.remove(e));
 		// Apparition des soleils
-		if (tickCount % this.difficulty.getSunApparitionFrequency(countOfSunflowers) == 0) {
+		if (tickCount % this.difficulty.getSunApparitionFrequency(battlefield.getCountSunflowers()) == 0) {
 			entites.add(new Sun(this.difficulty.getDefaultSunDisparitionTime()));
 		}
-		Timer m = new Timer(5000);
-		Text a =new Text("Niveau 1" , 0.500, 0.500, 16 );
-		texts.add(a);	
-		if(m.hasFinished()) {
-			texts.remove(a);
-		}
-		//gestion du niveau de difficult�
-		if(this.battlefield.getCountOfZombieSpawned() <=20 && tickCount>700) {
+		
+		System.out.println(this.battlefield.getCountOfZombieSpawned());
+		
+		/**
+		 * DIFFICULTÉ 1
+		 */
+		if(this.battlefield.getCountOfZombieSpawned() <= 20 && tickCount>700) {
+			// Affichage du niveau en cours
+			if (this.actualLevel == 0)
+				this.texteNiv.setContent("Niveau 1");
+			this.actualLevel = 1;
 			// Apparition des zombies 
-		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
-			this.battlefield.spawnBasicZombie(BasicZombie.class);
-		}
-		if(this.battlefield.getCountOfZombieSpawned()%5==1) {
-			this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class );
-		}
+			if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class);
+			}
+			if(this.battlefield.getCountOfZombieSpawned() != 0 && this.battlefield.getCountOfZombieSpawned()%5==0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
+			}
 		}
 		
-		//Timer d'affichage du Texts correpondant au niveau
-		Timer k = new Timer(5000);
-		Text b =new Text("Niveau 2" , 0.500, 0.500, 16 );
-		texts.add(b);	
-		if(k.hasFinished()) {
-			texts.remove(b);
-		}
+		/**
+		 * DIFFICULTÉ 2
+		 */
 		if(this.battlefield.getCountOfZombieSpawned()>20 && this.battlefield.getAllZombies().size()==0 && this.battlefield.getCountOfZombieSpawned()<70 ) {
+			// Affichage du niveau en cours
+			if (this.actualLevel == 1)
+				this.texteNiv.setContent("Niveau 2");
+			this.actualLevel = 2;
 			this.difficulty= new MediumSettings();
 			//TODO Afficher niveau 2
 			if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
 				this.battlefield.spawnBasicZombie(BasicZombie.class);
 			}
-			if(this.battlefield.getCountOfZombieSpawned()%5==0) {
+			if(this.battlefield.getCountOfZombieSpawned()%3==0) {
 				this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
 			}
 			if(this.battlefield.getCountOfZombieSpawned()%9==0) {
-				this.battlefield.spawnBasicZombie(BasicZombie.class , BucketProtection.class);
+				this.battlefield.spawnBasicZombie(BasicZombie.class, BucketProtection.class);
 			}
 			if(this.battlefield.getCountOfZombieSpawned()%15==0) {
-				//this.battlefield.spawnZombieKamikaze();
+				this.battlefield.spawnBasicZombie(ZombieKamikaze.class, ConeProtection.class);
 			}
 		}
-		//Timer d'affichage du Texts correpondant au niveau
-		Timer j = new Timer(5000);
-		Text c =new Text("Niveau 3" , 0.50, 0.50, 16 );
-		texts.add(c);	
-		if(j.hasFinished()) {
-			texts.remove(c);
-		}
-			if(this.battlefield.getCountOfZombieSpawned()>=70 && this.battlefield.getAllZombies().size()==0) {
-				this.difficulty= new HighSettings();
-				 
-				if(this.battlefield.getCountOfZombieSpawned()%5==0) {
-					this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
-				}
-				if(this.battlefield.getCountOfZombieSpawned()%9==0) {
-					this.battlefield.spawnBasicZombie(BasicZombie.class, BucketProtection.class);
-				}
-				if(this.battlefield.getCountOfZombieSpawned()%15==0) {
-					//this.battlefield.spawnZombieKamikaze();
-				}
+
+		/**
+		 * DIFFICULTÉ 3
+		 */
+		if(this.battlefield.getCountOfZombieSpawned()>=70 && this.battlefield.getAllZombies().size()==0) {
+			// Affichage du niveau en cours
+			if (this.actualLevel == 2)
+				this.texteNiv.setContent("Niveau 3");
+			this.actualLevel = 3;
+			this.difficulty= new HighSettings();
+			 
+			if(this.battlefield.getCountOfZombieSpawned()%2==0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
 			}
+			if(this.battlefield.getCountOfZombieSpawned()%5==0) {
+				this.battlefield.spawnBasicZombie(BasicZombie.class, BucketProtection.class);
+			}
+			if(this.battlefield.getCountOfZombieSpawned()%13==0) {
+				this.battlefield.spawnBasicZombie(ZombieKamikaze.class, BucketProtection.class);
+			}
+		}
 		
-		
+		// Gestion de la fin de la partie
 		this.battlefield.getAllZombies().forEach( z -> {
 			if(z.getX()<0) {
 				gameLost = true;
@@ -230,6 +232,9 @@ public class GameWorld {
 		// affiche les textes
 		for (Text text : texts)
 			text.dessine();
+		
+		// Affichage du texte de niveau
+		this.texteNiv.dessine();
 				
 	}
 

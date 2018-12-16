@@ -10,6 +10,7 @@ import entities.MitraillettePlant;
 import entities.Plant;
 import entities.Pois;
 import entities.PoisPlant;
+import entities.Sunflower;
 import entities.Zombie;
 import entities.ZombieState;
 import ihm.Boutique;
@@ -52,7 +53,7 @@ public class Battlefield {
 	/**
 	 * Compte le nombre de zombie qui ont spawned depuis le début.
 	 */
-	private int  countOfZombieSpawned;
+	private int countOfZombieSpawned;
 	/**
 	 * Liste des particules affichées sur le champ de bataille
 	 */
@@ -78,6 +79,8 @@ public class Battlefield {
 			}
 			
 		this.particleList = new ArrayList<Particle>();
+		
+		this.countOfZombieSpawned = 0;
 	}
 	
 	/**
@@ -118,8 +121,24 @@ public class Battlefield {
 	}
 
 
+	/**
+	 * Fait apparaître un zombie de la classe donnée sur une ligne aléatoire
+	 * @param zombieClass Une classe qui hérite de Zombie.
+	 */
 	public void spawnBasicZombie(Class<?> zombieClass) {
+		spawnBasicZombie(zombieClass, null);
+	}
+	
+	/**
+	 * Fait apparaître un zombie de la classe donnée et avec la protection donnée
+	 * sur une ligne aléatoire
+	 * @param zombieClass Une classe qui hérite de Zombie.
+	 * @param protectionClass Une classe qui hérite de Protection.
+	 */
+	public void spawnBasicZombie(Class<?> zombieClass, Class<?> protectionClass) {
+		// Incrément du nombre de zombies apparus
 		countOfZombieSpawned++;
+		
 		// On génère un nombre entre 1 et 5 pour la ligne
 		int row = ThreadLocalRandom.current().nextInt(1, 5 + 1);
 		
@@ -140,8 +159,13 @@ public class Battlefield {
         	return;
         }
 		
+		// Si la classe de protection fournie n'est pas nulle, on demande au zombie de s'ajouter une protection
+		if (protectionClass != null)
+			zombie.setupProtection(protectionClass);
+			
 		// On redéfinit les coordonnées du zombie aux coordonnées voulues;
 		this.zombieField.get(row-1).add(zombie);
+			
 	}
 	
 	/**
@@ -305,6 +329,17 @@ public class Battlefield {
 		});
 
 		
+	}
+
+	public int getCountSunflowers() {
+		int count = 0;
+		for (Plant[] pr : this.plantField) {
+			for (Plant p : pr) {
+				if (p instanceof Sunflower)
+					count++;
+			}
+		}
+		return count;
 	}
 	
 }

@@ -11,8 +11,6 @@ public class ZombieKamikaze extends Zombie {
 		"../assets/images/kamikaze_zombie_walk/frame_4_delay-0.5s.png",
 		"../assets/images/kamikaze_zombie_walk/frame_5_delay-0.5s.png"
 	};
-
-		"../assets/images/kamikaze_zombie_walk/frame_2_delay-0.5s.png",
 	/**
 	 * Fait apparaitre un zombie kamikaze sur une ligne
 	 * @param ligne le numero de la ligne [ 1 ; 5 ]
