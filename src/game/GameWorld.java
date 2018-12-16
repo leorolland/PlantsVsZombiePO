@@ -157,7 +157,7 @@ public class GameWorld {
 				this.battlefield.spawnBasicZombie(BasicZombie.class/*, Future Classe*/);
 			}
 			if(this.battlefield.getCountOfZombieSpawned()%9==0) {
-				this.battlefield.spawnBasicZombie(BazicZombie.class /*,Future Classe*/);
+				this.battlefield.spawnBasicZombie(BasicZombie.class /*,Future Classe*/);
 			}
 		}
 		
