@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import entities.BasicZombie;
+import entities.BucketProtection;
 import entities.ConeProtection;
 import entities.Sunflower;
 import entities.Sun;
@@ -138,7 +139,7 @@ public class GameWorld {
 		}
 		// Apparition des zombies 
 		if (tickCount % this.difficulty.getBasicZombieApparitionFrequency() == 0) {
-			this.battlefield.spawnBasicZombie(BasicZombie.class, ConeProtection.class);
+			this.battlefield.spawnBasicZombie(BasicZombie.class, BucketProtection.class);
 		}
 	}
 
